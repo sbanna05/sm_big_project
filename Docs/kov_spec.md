@@ -18,18 +18,18 @@
 - A **felhasználó** nem tudja naplózni a hangulatát.
 
 ## 4. Igényelt üzleti folyamat
-- A felhasználó beregisztrál az oldalra, így a rendszer el tudja menteni a hozzá tartozó adatokat.
-- A felhasználó megadja a pontos születési időpontját, valalmint helyszínét.
+- A **felhasználó** beregisztrál az oldalra, így a rendszer el tudja menteni a hozzá tartozó adatokat.
+- A **felhasználó** megadja a pontos születési időpontját, valalmint helyszínét.
 - A rendszer meghatározza a pontos horoszkópját és eltárolja.
-- A felhasználó minden nap megadhatja a hangulatát.
+- A **felhasználó** minden nap megadhatja a hangulatát.
 - A rendszer a napi horoszkóp és hangulat kombinációjából személyre szabott napi üzenetet állít össze.
 - A napi üzenetek visszakereshetőek.
-- A felhasználó grafikon alapján nyomon tudja követni a hangulat változásait.
+- A **felhasználó** grafikon alapján nyomon tudja követni a hangulat változásait.
 - A rendszer barátokat ajánl a horoszkóp és szokásos hangulat alapján.
-- A barátajánlást a felhasználó elfogadhatja vagy elutasíthatja.
+- A barátajánlást a **felhasználó** elfogadhatja vagy elutasíthatja.
 - A barátok cseveghetnek egymással.
-- A rendszer értesítést küld a napi üzenetről és a barátajánlásról.
-- A rendszer elemzi a kapott adatokat és visszajelzések alapján finomíthat a személyreszabott üzeneteken.
+- A rendszer értesítést küld a **felhasználónak** a napi üzenetről és a barátajánlásról.
+- A rendszer elemzi a kapott adatokat és a **felhasználó** visszajelzései alapján finomíthat a személyreszabott üzeneteken.
 
 ## 5. Követelmény Lista
 
