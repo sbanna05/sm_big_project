@@ -2,7 +2,55 @@
 
 ## 1. Projekt célja / Vágyálom
 
----
+### 1.1 Áttekintés
+
+A rendszer célja egy **mesterséges intelligencia alapú** asztrológiai alkalmazás,
+amely interaktív módon nyújt **napi horoszkóp-élményt**, önreflexiós lehetőséget
+és közösségi kapcsolódást.
+A fejlesztés fókuszában az áll, hogy a felhasználó minden nap
+**egyedi, személyre szabott tartalmat** kapjon, miközben egy intuitív,
+modern és játékos felületet használ.
+Az alkalmazás fő moduljai a regisztráció, a horoszkóp-generálás,
+a mood/habit napló, az interaktív napi popup és a statisztikai dashboard.
+Minden funkció célja, hogy a felhasználót hosszú távon elkötelezze.
+
+### 1.2 Funkcionális vágyak
+
+A megrendelő szeretné, hogy az alkalmazás:
+- biztosítson **gyors** és **egyszerű regisztrációt**,
+- generáljon **AI-alapú, napi horoszkóp üzenetet**,
+- tegye lehetővé a **hangulatnaplózást**,
+- jelenítsen meg **interaktív, kaparós napi üzenetet**,
+- ajánljon **hasonló érdeklődésű** felhasználókat közösségi élményhez,
+- tartalmazzon **statisztikai** és **trendnézetet** a felhasználói adatokhoz,
+- küldjön **értesítéseket** a napi tartalomról,
+- és integrálódjon **modern AI** és **adatbázis technológiákkal**.
+A cél, hogy az alkalmazás ne csak információt adjon,
+hanem inspiráló napi digitális rituálévá váljon.
+
+### 1.3 Nem-funkcionális vágyak
+
+A rendszer legyen:
+- **gyors** (AI-generálás < 2 másodperc),
+- **biztonságos** (GDPR, titkosított adatbázis),
+- **stabil** (1000+ felhasználó támogatása),
+- **reszponzív** (mobil és web egyaránt),
+- **modern** (React, Node.js, Supabase architektúra),
+- **vizuálisan vonzó** (misztikus-futurista UI/UX),
+- **felhasználóbarát** (egyszerű navigáció, animált elemek).
+A dizájn célja, hogy a felhasználó **szívesen térjen vissza** nap mint nap.
+
+### 1.4 Elfogadási kritériumok
+
+A projekt akkor tekinthető funkcionálisan teljesnek, ha:
+&#128504; A felhasználók sikeresen regisztrálhatnak és létrejön az AI-profil.
+&#128504; Az AI napi egyedi horoszkóp üzenetet generál.
+&#128504; A mood/habit napló működik és adatot ment.
+&#128504; Az interaktív popup megjelenik és reszponzív.
+&#128504; A statisztikai dashboard helyesen számítja a trendeket.
+&#128504; Az értesítések működnek és testreszabhatók.
+&#128504; A rendszer hiba nélkül működik 1000+ felhasználó esetén.
+&#128504; A UI/UX megfelel a modern design elvárásoknak.
 
 ## 2. Általános leírás
 
