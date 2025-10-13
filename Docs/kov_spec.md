@@ -7,6 +7,7 @@
 ## 2. Megrendelői vízió (Vágyálom)
 
 ## 3. Jelenlegi üzleti folyamat
+
 - A **felhasználó** megadja a születése időpontját és helyszínét.
 - Ezen adatok alapján a rendszer meghatározza a **felhasználó** horoszkópját.
 - Megjelenik a **felhasználó** általános napi horoszkópja.
@@ -18,6 +19,7 @@
 - A **felhasználó** nem tudja naplózni a hangulatát.
 
 ## 4. Igényelt üzleti folyamat
+
 - A **felhasználó** beregisztrál az oldalra, így a rendszer el tudja menteni a hozzá tartozó adatokat.
 - A **felhasználó** megadja a pontos születési időpontját, valalmint helyszínét.
 - A rendszer meghatározza a pontos horoszkópját és eltárolja.
@@ -33,9 +35,21 @@
 
 ## 5. Követelmény Lista
 
-### 5.1 Funcionális követelmények
+### 5.1 Funkcionális követelmények
 
-### 5.2 Nem-Funkcionális követelmények
+| Modul ID | Név | V. | Kifejtés |
+|-----------|-----|---|-----------|
+| F1 | Regisztráció | 1.0 | Név, nem, születési adatok (dátum, hely), AI profil generálása |
+| F2 | Zodiákus profil kalkuláció | 1.0 | Napjegy, Holdjegy, Aszcendens + bolygóállások |
+| F3 | Mood / Habit log | 1.0 | Hangulat, napi szokások naplózása, rövid jegyzet |
+| F4 | AI napi üzenet | 1.0 | Gemini AI API használata, személyre szabott horoszkóp üzenet |
+| F5 | Interaktív popup | 1.0 | Kaparós vagy más vizuális élmény a napi üzenethez |
+| F6 | Felhasználói matching | 1.0 | Használó ajánlások kompatibilitás, hangulat és érdeklődés alapján |
+| F7 | Chat / közösségi funkció | 1.0 | Felhasználók egymással való kapcsolatfelvétel |
+| F8 | Értesítések | 1.0 | Push notification a napi horoszkóphoz |
+| F9 | Dashboard / statisztika | 1.0 | Hangulatgörbe, trendek vizualizációja |
+
+### 5.2 Nem-funkcionális követelmények
 
 ## 6. Felhasználói történetek
 
