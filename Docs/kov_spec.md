@@ -8,35 +8,35 @@
 
 ### 2.1 Áttekintés
 
-A megrendelő célja egy modern, mesterséges intelligencia alapú, asztrológiai közösségi alkalmazás fejlesztése, amely túlmutat a hagyományos horoszkóp applikációkon.
-A piacon jelenleg elérhető megoldások többsége statikus, előre generált tartalmakat kínál, amelyek nem alkalmazkodnak a felhasználók aktuális érzelmi vagy élethelyzetéhez.
-A projekt víziója egy olyan dinamikus platform, amely az asztrológiát, az önismeretet és a közösségi élményt ötvözi egy esztétikus, trendkövető környezetben.
+A megrendelő célja egy **modern**, **mesterséges intelligencia alapú**, **asztrológiai közösségi alkalmazás** fejlesztése, amely túlmutat a hagyományos horoszkóp applikációkon.
+A piacon jelenleg elérhető megoldások többsége **statikus, előre generált tartalmakat** kínál, amelyek nem alkalmazkodnak a felhasználók aktuális érzelmi vagy élethelyzetéhez.
+A projekt víziója egy olyan **dinamikus platform**, amely az asztrológiát, az önismeretet és a közösségi élményt ötvözi egy esztétikus, trendkövető környezetben.
 
 ### 2.2 Megrendelői vágyak
 
-A megrendelő szeretné, hogy az alkalmazás minden nap személyre szabott, AI által generált horoszkóp üzenetet kínáljon, amely tükrözi a felhasználó aktuális hangulatát és csillagjegyét.
-Az app támogatja a napi hangulat- és szokásnaplózást, ezzel segítve az önreflexiót és a tudatos életvitelt.
+A megrendelő szeretné, hogy az alkalmazás minden nap személyre szabott, **AI által generált horoszkóp üzenetet** kínáljon, amely tükrözi a felhasználó **aktuális hangulatát és csillagjegyét**.
+Az app támogatja a napi **hangulatnaplózást**, ezzel segítve az önreflexiót és a tudatos életvitelt.
 A közösségi modul célja, hogy a felhasználók hasonló érdeklődésű, azonos vagy kompatibilis jegyű emberekkel kapcsolódhassanak pozitív, támogató formában.
-A megrendelő szeretné, ha a felhasználók hosszú távon is visszatérnének az alkalmazásba, és az app napi digitális társukká válna.
+A megrendelő szeretné, ha a felhasználók hosszú távon is visszatérnének az alkalmazásba, és az app napi **digitális társukká** válna.
 
 ### 2.3 Nem-funkcionális vágyak
 
-A megrendelő elvárja, hogy az alkalmazás modern technológiákra épüljön (React, Node.js, AI API-k), gyorsan reagáljon és magas rendelkezésre állást biztosítson.
-Az adatok kezelése biztonságos, GDPR-kompatibilis módon történjen.
-Az AI alapú generálás maximum 2 másodperc alatt fusson le, a felület pedig mobilon és weben is reszponzív legyen.
-Fontos szempont a letisztult, misztikus-futurista UI/UX, amely vizuálisan vonzó és közösségi médiában is könnyen megosztható.
+A megrendelő elvárja, hogy az alkalmazás **modern technológiákra** épüljön (React, Node.js, AI API-k), **gyorsan reagáljon** és **magas rendelkezésre** állást biztosítson.
+Az adatok kezelése **biztonságos**, **GDPR-kompatibilis** módon történjen.
+Az AI alapú generálás **maximum 2 másodperc** alatt fusson le, a felület pedig mobilon és weben is reszponzív legyen.
+Fontos szempont a letisztult, misztikus-futurista UI/UX, amely vizuálisan vonzó és közösségi médiában is **könnyen megosztható**.
 
 ### 2.4 Elfogadási kritériumok
 
 A projekt akkor tekinthető sikeresnek, ha:
-- a felhasználók regisztráció után személyre szabott asztrológiai profilt kapnak,
-- az AI napi szinten egyedi horoszkóp üzenetet generál,
-- a mood/habit napló funkció működőképes és adatot ment,
-- az interaktív napi popup élményt nyújt,
-- a rendszer stabilan működik legalább 1000 felhasználóval,
-- az AI-generálás gyors és hibamentes,
-- a UI esztétikus, modern és reszponzív,
-- a felhasználói adatok biztonságosan tárolódnak.
+- a felhasználók regisztráció után **személyre szabott** asztrológiai profilt kapnak,
+- az AI **napi szinten egyedi horoszkóp üzenetet** generál,
+- a **mood/habit napló** funkció működőképes és adatot ment,
+- az **interaktív napi popup** élményt nyújt,
+- a rendszer stabilan működik legalább 10000 felhasználóval,
+- az AI-generálás **gyors** és **hibamentes**,
+- a UI esztétikus, **modern és reszponzív**,
+- a **felhasználói adatok biztonságosan** tárolódnak.
 
 ## 3. Jelenlegi üzleti folyamat
 
