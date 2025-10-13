@@ -51,6 +51,17 @@
 
 ### 5.2 Nem-funkcionális követelmények
 
+| Modul ID | Név | V. | Kifejtés |
+|-----------|-----|---|-----------|
+| NF1 | Platform | 1.0 | Web (React/Next.js) + mobil (React Native) |
+| NF2 | Backend | 1.0 | Node.js + Supabase (PostgreSQL + Auth + Storage) |
+| NF3 | AI integráció | 1.0 | Gemini AI API vagy OpenAI GPT-5 mini |
+| NF4 | Biztonság | 1.0 | GDPR-kompatibilis, titkosított adatbázis, felhasználói adatok védelme |
+| NF5 | Teljesítmény | 1.0 | AI generálás < 2-5 mp, napi popup gyors betöltés |
+| NF6 | Skálázhatóság | 1.0 | Támogatás akár 10k+ felhasználóig |
+| NF7 | UI/UX | 1.0 | Modern, misztikus-futurista, esetleges animációk (pl Framer Motion) |
+| NF8 | Logging / Analytics | 1.0 | Felhasználói viselkedés, engagement, AI interakciók rögzítése |
+
 ## 6. Felhasználói történetek
 
 > Rövid történetek, hogy a felhasználó hogyan használja a rendszert.
