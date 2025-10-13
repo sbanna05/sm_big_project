@@ -42,14 +42,14 @@ A dizájn célja, hogy a felhasználó **szívesen térjen vissza** nap mint nap
 
 ### 1.4 Elfogadási kritériumok
 
-A projekt akkor tekinthető funkcionálisan teljesnek, ha:
-&#128504; A felhasználók sikeresen regisztrálhatnak és létrejön az AI-profil.
-&#128504; Az AI napi egyedi horoszkóp üzenetet generál.
-&#128504; A mood/habit napló működik és adatot ment.
-&#128504; Az interaktív popup megjelenik és reszponzív.
-&#128504; A statisztikai dashboard helyesen számítja a trendeket.
-&#128504; Az értesítések működnek és testreszabhatók.
-&#128504; A rendszer hiba nélkül működik 1000+ felhasználó esetén.
+**A projekt akkor tekinthető funkcionálisan teljesnek, ha:<br>**
+&#128504; A felhasználók sikeresen regisztrálhatnak és létrejön az AI-profil.<br>
+&#128504; Az AI napi egyedi horoszkóp üzenetet generál.<br>
+&#128504; A mood/habit napló működik és adatot ment.<br>
+&#128504; Az interaktív popup megjelenik és reszponzív.<br>
+&#128504; A statisztikai dashboard helyesen számítja a trendeket.<br>
+&#128504; Az értesítések működnek és testreszabhatók.<br>
+&#128504; A rendszer hiba nélkül működik 1000+ felhasználó esetén.<br>
 &#128504; A UI/UX megfelel a modern design elvárásoknak.
 
 ## 2. Általános leírás
