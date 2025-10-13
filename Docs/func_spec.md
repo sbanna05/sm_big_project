@@ -62,22 +62,36 @@ A dizájn célja, hogy a felhasználó **szívesen térjen vissza** nap mint nap
 
 ---
 
-## 3. Architektúrális terv
-
-### 3.1 Rendszer moduljai
-
-### 3.2 Adatáramlás / Adatmodell
-
-> Röviden leírva az adatbevitel, tárolás és feldolgozás logikája.
-
-### 3.3 Technológiai stack
-
-- Backend:  
-- Frontend:  
-- Adatbázis:  
-- Külső szolgáltatások / API-k:  
-
----
+## 3. Igényelt üzleti folyamat
+- A felhasználó a bejelentkezéskör egy űrlap kitöltésével saját profilt hozz létre.
+- A megadott adatok alapján a rendszer pontosan kiszámolja a felhasználó horoszkópját.
+    - A meghatározott horoszkóp mentésre kerül és eltárolja a rendszer a felhasználó személyes adataival.
+    - Ehhez a felhasználó bejelentkezést követően hozzáfér.
+    - Később a felhasználó módosíthatja személyes adatait.
+- A felhasználó naplózhatja napi hangulatát.
+    - A naplózásról a rendszer értesítést küld.
+    - A naplózás eredményét a rendszer eltárolja.
+    - Grafikon által kiértékelésre kerül.
+        - A grafikon időszak szerint szűrhető (*nap*, *hét*, *hó*).
+- A felhasználó napi hangulata és horoszkópja alapján a rendszer napi üzenetet generál.
+    - Ez az üzenet minden felhasználó számára személyre szabott.
+    - A rendszer menti a napi üzenetet így ez visszanézzhető.
+- A rendszer elemzést készít a felhasználó által megadott napi hangulatok adataiból.
+- A rendszer a hangulati minta és a horoszkóp alapján barátot ajánl.
+    - A felhasználó elfogadhatja vagy elutasíthattja az adott ajánlást.
+    - Az elfogadott barátok bekerülnek a felhasználó kapcsolati fájába.
+        - A rendszer felületet biztosít a barátok közötti csevegésre.
+        - A rendszer értesítést küld, ha új üzenet érkezik.
+            - A felhasználó beállításokat végezhet az értesítéseken:
+                - *Engedélyezés*
+                - *Tiltás*
+- A rendszer eltárolja a felhasználói aktivitást.
+    - Az adatokat biztonságos adatbázisban kerülnek eltárolásra.
+- A rendszer tanul a felhasználói visszajelzésekből.
+    - A tanulás célja a személyre szabott üzenetek finomítása.
+    - Célja, hogy növelje a felhasználó napi aktivitást.
+    - A visszajelzések beépülnek az ajánlási algoritmusba.
+- A rendszer elemzi a naplózot hangulat és a horoszkóp közötti összefüggéseket.
 
 ## 4. Funkcionális követelmények
 
