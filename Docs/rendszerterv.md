@@ -330,7 +330,7 @@ Példa kép a login kinézetre:
 - A profilhoz tartozó *Nap*, *Hold*, és *Aszcendenst* az **AstroPy** vagy a **Swiss Ephemeris API** segítségével kiszámolja a rendszer.
 - A kiszámított asztrológiai jellemzőket az adatbázis **JSON** formában tárolja.
 
-### Mood Log
+#### Mood Log
 - A felhasználó a napi hangulatát **Daily Mood** fülen értékelheti.
 - Az ott megtalálható 5 csillag közül kiválaszthatja a számára legmegfelelőt:
   - *Angry*
@@ -343,7 +343,7 @@ Példa kép a login kinézetre:
   - *hét*
   - *nap*
 
-### Daily Message
+#### Daily Message
 - A rendszer személyre szabott napi üzenetet generál a felhasználónak, amelyet a **Home** fülnél nézzhet meg.
 - Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
 ---
