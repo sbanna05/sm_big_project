@@ -316,4 +316,34 @@ Példa kép a login kinézetre:
 - Skálázható Supabase infrastruktúra akár 10k+ aktív felhasználóig  
 - Lazy load komponensek a frontend teljesítmény optimalizálásához  
 
+## 7. Funkcionális terv
+
+### Alapfunkciók
+#### Regisztráció
+- Felhasználói profil generálása az adott adatok megadása alapján:
+  - *Név*
+  - *Születési idő*
+  - *Születési hely*
+  - *Születési időpont*
+  - *Nem*
+- A sikeres regisztráció után a Supabase adatbázis automatikusan létrehozza a felhasználó profilját.
+- A profilhoz tartozó *Nap*, *Hold*, és *Aszcendenst* az **AstroPy** vagy a **Swiss Ephemeris API** segítségével kiszámolja a rendszer.
+- A kiszámított asztrológiai jellemzőket az adatbázis **JSON** formában tárolja.
+
+### Mood Log
+- A felhasználó a napi hangulatát **Daily Mood** fülen értékelheti.
+- Az ott megtalálható 5 csillag közül kiválaszthatja a számára legmegfelelőt:
+  - *Angry*
+  - *Sad*
+  - *Bored*
+  - *Happy*
+  - *Excited*
+- A hangulatváltozások grafikonon követhetőek, amelyek különböző időszakok szerint szűrhetőek:
+  - *hónap*
+  - *hét*
+  - *nap*
+
+### Daily Message
+- A rendszer személyre szabott napi üzenetet generál a felhasználónak, amelyet a **Home** fülnél nézzhet meg.
+- Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
 ---
