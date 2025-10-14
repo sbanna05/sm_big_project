@@ -1,0 +1,1 @@
+# SoulMates Application Rendszerterv
