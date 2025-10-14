@@ -110,6 +110,31 @@ ahol a csapattagok értékelik a haladást és meghatározzák a következő hé
 
 ---
 
+## 3. Üzleti folyamatok modellje
+
+### 3.1 Üzleti szereplők
+- **Felhasználó:** napi üzenetek fogadása, hangulatnapló vezetése  
+- **Adminisztrátor:** rendszerfigyelés, tartalmi moderálás  
+- **AI modul:** napi üzenet generálás és profiladatok feldolgozása  
+
+### 3.2 Üzleti folyamatok
+1. Felhasználó regisztrál → rendszer létrehozza AI-profilt  
+2. Felhasználó naplózza hangulatát → AI értelmezi az adatokat  
+3. AI generál személyre szabott napi üzenetet  
+4. Rendszer megjeleníti interaktív formában (popup)  
+5. Felhasználó visszajelzést ad → adatok elemzésre kerülnek  
+
+### 3.3 Üzleti entitások
+- **users** (id, name, birthDate, mood, habits)  
+- **daily_message** (id, userId, date, messageText, sentiment)  
+- **mood_logs** (id, userId, moodLevel, notes)  
+- **matches** (zodiac, matchScore)  
+
+Az entitások között relációk állnak fenn (pl. egy felhasználónak több
+MoodLog-ja lehet), amelyek segítik az AI-t a személyre szabott
+tartalomgenerálásban.
+
+---
 
 ## 4. Fizikai környezet
 
