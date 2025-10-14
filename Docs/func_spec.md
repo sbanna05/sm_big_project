@@ -62,22 +62,36 @@ A dizájn célja, hogy a felhasználó **szívesen térjen vissza** nap mint nap
 
 ---
 
-## 3. Architektúrális terv
-
-### 3.1 Rendszer moduljai
-
-### 3.2 Adatáramlás / Adatmodell
-
-> Röviden leírva az adatbevitel, tárolás és feldolgozás logikája.
-
-### 3.3 Technológiai stack
-
-- Backend:  
-- Frontend:  
-- Adatbázis:  
-- Külső szolgáltatások / API-k:  
-
----
+## 3. Igényelt üzleti folyamat
+- A felhasználó a bejelentkezéskör egy űrlap kitöltésével saját profilt hozz létre.
+- A megadott adatok alapján a rendszer pontosan kiszámolja a felhasználó horoszkópját.
+    - A meghatározott horoszkóp mentésre kerül és eltárolja a rendszer a felhasználó személyes adataival.
+    - Ehhez a felhasználó bejelentkezést követően hozzáfér.
+    - Később a felhasználó módosíthatja személyes adatait.
+- A felhasználó naplózhatja napi hangulatát.
+    - A naplózásról a rendszer értesítést küld.
+    - A naplózás eredményét a rendszer eltárolja.
+    - Grafikon által kiértékelésre kerül.
+        - A grafikon időszak szerint szűrhető (*nap*, *hét*, *hó*).
+- A felhasználó napi hangulata és horoszkópja alapján a rendszer napi üzenetet generál.
+    - Ez az üzenet minden felhasználó számára személyre szabott.
+    - A rendszer menti a napi üzenetet így ez visszanézzhető.
+- A rendszer elemzést készít a felhasználó által megadott napi hangulatok adataiból.
+- A rendszer a hangulati minta és a horoszkóp alapján barátot ajánl.
+    - A felhasználó elfogadhatja vagy elutasíthattja az adott ajánlást.
+    - Az elfogadott barátok bekerülnek a felhasználó kapcsolati fájába.
+        - A rendszer felületet biztosít a barátok közötti csevegésre.
+        - A rendszer értesítést küld, ha új üzenet érkezik.
+            - A felhasználó beállításokat végezhet az értesítéseken:
+                - *Engedélyezés*
+                - *Tiltás*
+- A rendszer eltárolja a felhasználói aktivitást.
+    - Az adatokat biztonságos adatbázisban kerülnek eltárolásra.
+- A rendszer tanul a felhasználói visszajelzésekből.
+    - A tanulás célja a személyre szabott üzenetek finomítása.
+    - Célja, hogy növelje a felhasználó napi aktivitást.
+    - A visszajelzések beépülnek az ajánlási algoritmusba.
+- A rendszer elemzi a naplózot hangulat és a horoszkóp közötti összefüggéseket.
 
 ## 4. Funkcionális követelmények
 
@@ -173,7 +187,121 @@ Az alkalmazás kompatibilitás és aktuális hangulat alapján ajánl más felha
 
 ---
 
-## 5. Nem-Funckionális Követelmények
+### 5.2 Nem-funkcionális követelmények – Funkcionális specifikáció
+
+#### NF1 – Platform
+
+**Verzió:** 1.0  
+**Leírás:**  
+A rendszer egy **React alapú SPA** (Single Page Application) webalkalmazás, opcionálisan mobil-reszponzív változatban.  
+**Funkciók és részletek:**  
+
+- Kliens oldali routing: `react-router-dom`  
+- Reszponzív design: Bootstrap 5 grid + egyedi CSS változók  
+- Offline cache alap: PWA támogatás a gyorsabb betöltéshez  
+- Céleszközök: desktop, tablet, mobil  
+
+---
+
+#### NF2 – Backend
+
+**Verzió:** 1.0  
+**Leírás:**  
+A backend a **Supabase** szolgáltatásra épül.  
+**Funkcionális részletek:**  
+
+- **Adatbázis:** PostgreSQL (Supabase)  
+- **Autentikáció:** Supabase Auth (email, OAuth)  
+- **Tárolás:** Supabase Storage (profilképek, AI üzenetek)  
+- **Realtime funkciók:** chat, mood log frissítés  
+- API endpointok:  
+  - `POST /register` – felhasználó létrehozása  
+  - `POST /mood` – hangulat mentése  
+  - `GET /dailyMessage` – AI üzenet lekérése  
+  - `GET /match` – felhasználói ajánlások  
+
+---
+
+#### NF3 – AI integráció
+
+**Verzió:** 1.0  
+**Leírás:**  
+A Gemini AI vagy OpenAI GPT-5 mini API segítségével generáljuk a személyre szabott horoszkóp üzeneteket.  
+**Funkcionális részletek:**  
+
+- Input: felhasználói zodiákus profil, hangulat, dátum  
+- Output: rövid, személyre szabott napi üzenet  
+- Integráció: frontend hívja a backend API-t, ami továbbküldi az AI API-nak  
+- Optimalizálás: válaszidő < 2–5 mp, cache használat a gyakori promptokhoz  
+
+---
+
+#### NF4 – Biztonság
+
+**Verzió:** 1.0  
+**Leírás:**  
+A felhasználói adatok védelmét és GDPR-kompatibilitást biztosítjuk.  
+**Funkcionális részletek:**  
+- HTTPS minden kommunikációhoz  
+- Felhasználói adatok titkosítása Supabase AES segítségével  
+- JWT tokenek a session kezelésére  
+- Row-level security a Supabase táblákban  
+- Felhasználói adat törlés/export lehetősége a profilban  
+
+---
+
+#### NF5 – Teljesítmény
+
+**Verzió:** 1.0  
+**Leírás:**  
+Az alkalmazás gyors és folyamatos felhasználói élményt biztosít.  
+**Funkcionális részletek:**  
+
+- Popup betöltés: < 1 mp  
+- AI üzenet generálás: < 2–5 mp  
+- React lazy loading komponensek  
+- Optimalizált CSS és Bootstrap használat  
+- Async API hívások, memoization (useMemo / useCallback)  
+
+---
+
+#### NF6 – Skálázhatóság
+
+**Verzió:** 1.0  
+**Leírás:**  
+A rendszer képes 10k+ aktív felhasználó kiszolgálására.  
+**Funkcionális részletek:**  
+
+- Supabase autoscaling a PostgreSQL táblákhoz  
+- Realtime funkciók load balancing (chat, mood log)  
+- Edge caching az AI napi üzenetekhez  
+- Load teszt: 1000+ egyidejű felhasználó  
+
+---
+
+#### NF7 – UI/UX
+
+**Verzió:** 1.0  
+**Leírás:**  
+Modern, misztikus-futurista felület animációkkal.  
+**Funkcionális részletek:**  
+- Színpaletta: Primary *lila*, secondary: *kék*, *zöld*
+- Betűtípus: Inter, Space Grotesk  
+- Popup animáció: Framer Motion  
+- Komponensek: Bootstrap card, modál, gombok  
+- Reszponzív interakció: touch + click
+
+#### NF8 – Logging / Analytics
+
+**Verzió:** 1.0  
+**Leírás:**  
+A rendszer nyomon követi a felhasználói viselkedést és engagementet.  
+**Funkcionális részletek:**
+
+- Események: belépés, mood log, popup megtekintés, AI üzenet interakció  
+- Naplózás: Supabase logs + egyszerű GA4 vagy Plausible integráció  
+- Adatmegőrzés: 90 nap után anonimizálás  
+- Admin hozzáférés: csak jogosult szerepkörrel  
 
 ---
 
