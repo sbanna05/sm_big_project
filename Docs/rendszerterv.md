@@ -1,5 +1,57 @@
 # SoulMates Application Rendszerterv
 
+## 1. Rendszer célja
+
+### 1.1 Hatékonyság növelése
+A rendszer célja, hogy az asztrológiai tartalmak előállítását és
+felhasználását **automatizálja** mesterséges intelligencia segítségével.
+Az AI-modul képes napi horoszkópokat, személyre szabott üzeneteket és
+hangulatelemzéseket generálni, ezáltal csökkentve az emberi beavatkozás
+szükségességét és növelve a tartalomfrissítés sebességét.
+
+### 1.2 Adminisztratív terhek csökkentése
+A felhasználói adatok, profilok és naplóbejegyzések automatikusan
+feldolgozásra kerülnek a háttérrendszerben (Supabase + Node.js).
+Ezáltal az adminisztrátorok munkaterhe jelentősen csökken, hiszen a
+rendszer önállóan végzi az adatkezelést, jelentéskészítést és az
+engagement-statisztikák generálását.
+
+### 1.3 Felhasználói élmény
+A felhasználói élmény középpontjában a **gyors, intuitív és vizuálisan
+vonzó felület** áll. A cél, hogy az alkalmazás minden nap interaktív,
+motiváló élményt nyújtson, amely az asztrológiát modern, játékos formában
+prezentálja. A Framer Motion animációk és a kaparós napi üzenetek
+különleges UX-élményt biztosítanak.
+
+### 1.4 Funkcionális scope
+A projekt keretében megvalósítandó fő funkciók:
+- Felhasználói regisztráció és zodiákus profil generálása  
+- Napi horoszkóp generálása mesterséges intelligenciával  
+- Hangulat- és szokásnapló funkció  
+- Interaktív napi üzenet megjelenítése (kaparós popup)  
+- Közösségi modul és felhasználói ajánlások  
+- Statisztikai dashboard és trendelemzés  
+
+### 1.5 Nem célok
+A projekt nem tartalmaz:
+- Klasszikus társkereső funkciókat (match, chat alapú kapcsolatépítés)  
+- Manuális horoszkópírást  
+- Offline üzemmódot vagy többnyelvűséget az MVP fázisban  
+
+### 1.6 Előnyök a dolgozók számára
+A fejlesztők számára a projekt lehetőséget nyújt **AI-integrációs és
+frontend animációs technológiák** kipróbálására. Az adminisztrátorok
+automatizált riportokat kapnak, így kevesebb időt kell manuális
+adatgyűjtéssel tölteniük.
+
+### 1.7 Szervezeti előnyök
+A szervezet számára a rendszer **piaci versenyelőnyt** biztosít azáltal,
+hogy egy modern, trendkövető alkalmazást kínál, amely képes fiatal,
+digitális közönséget megszólítani. Az automatizálás csökkenti a
+működési költségeket, miközben növeli a felhasználói aktivitást.
+
+---
+
 ## 4. Fizikai környezet
 
 - **Szerveroldal / Backend:**  
