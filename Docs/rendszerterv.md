@@ -162,24 +162,25 @@ tartalomgenerálásban.
 
 ```mermaid
 flowchart TD
+
     %% Felhasználói réteg
-    A[👤 Felhasználó<br/>(Browser / Mobil)] 
-        -->|HTTP / HTTPS| B[💻 React Frontend<br/>(SPA alkalmazás)]
+    A["Felhasználó (Browser / Mobil)"] -->|"HTTP / HTTPS"| B["React Frontend (SPA alkalmazás)"]
 
     %% Frontend → Backend kapcsolat
-    B -->|REST / Fetch API hívások| C[🧩 Supabase Backend<br/>(Auth + PostgreSQL + Storage)]
+    B -->|"REST / Fetch API hívások"| C["Supabase Backend (Auth + PostgreSQL + Storage)"]
 
     %% Backend belső komponensek
-    C -->|SQL lekérdezések<br/>adatmentés| D[(🗄️ PostgreSQL Adatbázis)]
-    C -->|Fájlkezelés / profilképek| E[(🗂️ Supabase Storage)]
+    C -->|"SQL lekérdezések, adatmentés"| D["PostgreSQL Adatbázis"]
+    C -->|"Fájlkezelés / profilképek"| E["Supabase Storage"]
 
     %% AI integrációs réteg
-    C -->|API Request (JSON prompt)| F[🔮 Gemini AI API<br/>(napi horoszkóp üzenet generálás)]
-    F -->|AI Response (üzenet)| C
+    C -->|"API Request (JSON prompt)"| F["Gemini AI API (napi horoszkóp üzenet generálás)"]
+    F -->|"AI Response (üzenet)"| C
 
     %% Frontendre való visszatérés
-    C -->|Válasz JSON formátumban| B
-    B -->|Megjelenítés: Popup, Dashboard, Matching| A
+    C -->|"Válasz JSON formátumban"| B
+    B -->|"Megjelenítés: Popup, Dashboard, Matching"| A
+
 ```
 
 ---
@@ -217,6 +218,11 @@ flowchart TD
   - Vezetéknév, keresztév
   - Születési dátum, hely, idő (ha tudja, opcionális)
   - Nem (she/her; he/him, they/them)
+
+Példa kép a login kinézetre:
+
+<img width="1280" height="832" alt="Profile" src="https://github.com/user-attachments/assets/291fa7b5-0f43-40db-841c-d08d1569d648" />
+
 
 ### Backend
 
