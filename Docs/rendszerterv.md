@@ -52,6 +52,65 @@ működési költségeket, miközben növeli a felhasználói aktivitást.
 
 ---
 
+## 2. Projekt terv
+
+### 2.1 Projektszerepkörök és felelősségek
+A projektben több szerepkör működik együtt annak érdekében, hogy a fejlesztés
+hatékonyan és ütemezetten haladjon.  
+A **projektvezető** feladata a csapat munkájának koordinálása, a fejlesztési
+fázisok és mérföldkövek teljesülésének nyomon követése, valamint a
+kommunikáció fenntartása a megrendelővel és a projekt tagjaival.  
+A **fejlesztők** négyfős csapatot alkotnak, akik szorosan együttműködnek a
+rendszer implementálásában, tesztelésében és a dokumentáció készítésében.  
+A **UI/UX designer** felel a felhasználói felület megjelenéséért, a modern,
+misztikus-futurista stílusért, valamint a reszponzív élmény biztosításáért
+minden eszközön.  
+A **tesztelők** feladata a funkcionális hibák azonosítása, a felhasználói
+élmény validálása, valamint a végső átadás előtti minőségbiztosítás.
+
+### 2.2 Projektmunkások és felelősségeik
+A **backend fejlesztő** felelős az adatkezelési logika, az API-k és az üzleti
+folyamatokat támogató backend-funkciók megvalósításáért.  
+A **frontend fejlesztő** a reszponzív webes és mobil felület kialakítását
+végzi, ügyelve az intuitív kezelhetőségre és a vizuális élményre.  
+Az **adatbázis-felelős** tervezi és optimalizálja a logikai és fizikai
+adatmodellt, biztosítva az adatintegritást, a normalizáltságot és a gyors
+lekérdezéseket.  
+A **dokumentáció-felelős** gondoskodik a rendszerterv és a fejlesztési
+folyamatok egységes dokumentálásáról, valamint a verziókövetés (GitHub)
+naprakészen tartásáról.  
+A **projektvezető** irányítása alatt a csapat heti szinten egyeztet, és a
+fejlesztés állapotát sprintjelentések formájában rögzíti.  
+Minden csapattag felelős a saját modulja hibamentes működéséért és
+integrációjáért a teljes rendszerbe.
+
+### 2.3 Ütemterv
+
+A projekt fejlesztési ütemterve heti bontásban az alábbiak szerint alakul:
+
+| **Hét** | **Fázis** | **Feladatok és tevékenységek** |
+|----------|------------|--------------------------------|
+| **6. hét** | Követelményspecifikáció | A projekt céljainak, funkcióinak és elvárásainak meghatározása. KövSpec és FunkSpec dokumentumok elkészítése. |
+| **7. hét** | Rendszerterv | A rendszer architektúrájának, adatmodelljeinek és technológiai stackjének kidolgozása. |
+| **8. hét** | Fejlesztés – Sprint 1 | Alapstruktúra létrehozása (frontend és backend setup), adatbázis-kapcsolat és AI API integráció kezdeti implementálása. |
+| **9. hét** | Fejlesztés – Sprint 2 | Funkcionális modulok fejlesztése: regisztráció, AI-napi üzenet generálás, mood/habit log funkció. |
+| **10. hét** | Demó + Sprint 3 | A működő MVP verzió bemutatása. A demó során értékelés, visszajelzések gyűjtése és finomhangolás. |
+| **11. hét** | Fejlesztés – Sprint 4 + Tesztelés | Modulok véglegesítése, hibajavítások és manuális tesztelés (fejenként 10–20 tesztlépés, jegyzőkönyvezve). |
+| **12. hét** | Fejlesztés – Sprint 5 + Teszt dokumentáció | Tesztelés folytatása, tesztdokumentáció készítése, funkcionális hibák javítása. |
+| **13. hét** | Átadás-átvétel | A végleges rendszer bemutatása, értékelés és dokumentáció leadása. Projektzárás. |
+
+A fejlesztés során minden sprint végén **heti státuszmegbeszélés** történik,  
+ahol a csapattagok értékelik a haladást és meghatározzák a következő hét prioritásait.
+
+### 2.4 Mérföldkövek
+- M1: Követelményspecifikáció és funkcionális terv elkészül  
+- M2: MVP verzió működő AI-modullal  
+- M3: Interaktív UI és statisztikai modul  
+- M4: Tesztelés lezárása és végső átadás  
+
+---
+
+
 ## 4. Fizikai környezet
 
 - **Szerveroldal / Backend:**  
