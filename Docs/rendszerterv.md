@@ -87,3 +87,69 @@
 - Felhasználói beállítások: engedélyezés / tiltás  
 
 ---
+
+## 6. Funkcionális követelmények részletes leírása
+
+- **Regisztráció / Onboarding:**  
+  - Űrlap validáció: név, nem, születési dátum/idő/hely  
+  - AI profil generálása Supabase triggerrel  
+
+- **Zodiákus profil kalkuláció:**  
+  - Napjegy, Holdjegy, Aszcendens  
+  - Bolygóállások lekérése AstroPy vagy Swiss Ephemeris API segítségével  
+  - JSON struktúrában tárolás  
+
+- **Mood / Habit log:**  
+  - Felhasználói input 1–5 skálán  
+  - Mentés Supabase `mood_logs` táblába  
+  - Esetleg Grafikon generálás: Chart.js vagy Recharts, időszak szerint szűrhető  
+
+- **AI napi üzenet:**  
+  - Backend API hívás minden aktív felhasználónak  
+  - Rövid, személyre szabott üzenet  
+  - Mentés Supabase `daily_messages` táblába  
+
+- **Interaktív popup:**  
+  - Kaparós vagy animált felfedés  
+  - Framer Motion + react-scratchcard-js  
+
+- **Felhasználói matching:**  
+  - Algoritmus: csillagjegy kompatibilitás + hangulat + AI vibe score  
+  - Ajánlások megjelenítése a frontend-en  
+  - Elfogadás/elutasítás kezelése, kapcsolati fa frissítése  
+
+- **Chat / közösségi funkció:**  
+  - Supabase Realtime API  
+  - Üzenetküldés, emoji reakciók  
+  - Notifikáció érkezéskor  
+
+- **Értesítések:**  
+  - Push notification testreszabás a profilban  
+  - Értesítési preferenciák mentése Supabase-ben  
+
+- **Dashboard / statisztika:**  
+  - Interaktív grafikonok hangulat- és AI trendekről  
+  - AI szöveges kiértékelés  
+
+---
+
+### Biztonság és adatvédelem
+
+- HTTPS minden kommunikációhoz  
+- JWT token alapú session kezelés  
+- Row-level security Supabase táblákban  
+- Felhasználói adat törlés/export lehetőség  
+- GDPR kompatibilitás  
+- Adat anonimizálás 90 nap után (opcionális)  
+
+---
+
+### Teljesítmény és skálázhatóság
+
+- Popup betöltés <1 mp  
+- AI generálás <2–5 mp  
+- Realtime chat és mood log frissítés <1 mp  
+- Skálázható Supabase infrastruktúra akár 10k+ aktív felhasználóig  
+- Lazy load komponensek a frontend teljesítmény optimalizálásához  
+
+---
