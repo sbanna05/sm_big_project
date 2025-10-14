@@ -160,6 +160,28 @@ tartalomgenerálásban.
   - Firebase Cloud Messaging / OneSignal  
   - Push notification engedélyek kezelése a kliens oldalon  
 
+```mermaid
+flowchart TD
+    %% Felhasználói réteg
+    A[👤 Felhasználó<br/>(Browser / Mobil)] 
+        -->|HTTP / HTTPS| B[💻 React Frontend<br/>(SPA alkalmazás)]
+
+    %% Frontend → Backend kapcsolat
+    B -->|REST / Fetch API hívások| C[🧩 Supabase Backend<br/>(Auth + PostgreSQL + Storage)]
+
+    %% Backend belső komponensek
+    C -->|SQL lekérdezések<br/>adatmentés| D[(🗄️ PostgreSQL Adatbázis)]
+    C -->|Fájlkezelés / profilképek| E[(🗂️ Supabase Storage)]
+
+    %% AI integrációs réteg
+    C -->|API Request (JSON prompt)| F[🔮 Gemini AI API<br/>(napi horoszkóp üzenet generálás)]
+    F -->|AI Response (üzenet)| C
+
+    %% Frontendre való visszatérés
+    C -->|Válasz JSON formátumban| B
+    B -->|Megjelenítés: Popup, Dashboard, Matching| A
+```
+
 ---
 
 ## 5. Implementációs terv
