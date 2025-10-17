@@ -348,6 +348,44 @@ Példa kép a login kinézetre:
 - Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
 ---
 
+### 7. Absztrakt domain modell
+
+**Entitások:**  
+User, ZodiacProfile, MoodLog, DailyMessage, Match, ChatMessage, Notification, Dashboard.  
+
+**User**  
+- id, name, gender, birthDate, birthTime, birthPlace, email, passwordHash, avatarUrl, createdAt, updatedAt.  
+
+**ZodiacProfile**  
+- userId (FK), sunSign, moonSign, ascendant, calculationHash, createdAt.  
+
+**MoodLog**  
+- id, userId (FK), moodValue (1-5), note, loggedAt, aiFeedback.  
+
+**DailyMessage**  
+- id, userId (FK), content, createdAt, openedAt, scraped (bool).  
+
+**Match**  
+- id, fromUserId (FK), toUserId (FK), vibeScore, status (pending|accepted|declined), createdAt.  
+
+**ChatMessage**  
+- id, matchId (FK), senderId (FK), content, sentAt, readAt.  
+
+**Notification**  
+- id, userId (FK), type (daily|match|chat), payload, isRead, createdAt.  
+
+**Dashboard**  
+- userId (PK), moodTrendCache JSON, lastCalcAt, nextCalcAt.  
+
+**Kapcsolatok:**  
+User 1-1 ZodiacProfile, User 1-N MoodLog, User 1-N DailyMessage, User 1-N Match (as from), User 1-N Match (as to), Match 1-N ChatMessage, User 1-N Notification, User 1-1 Dashboard.  
+
+**Aggregátok:**  
+MoodLog-ok időszaki halmaza adja a Dashboard moodTrendCache-jét; DailyMessage minden User-enként egyedi naponta.  
+
+**Szabályok:**  
+MoodValue ∈ {1,2,3,4,5}; vibeScore ∈ [0,1]; DailyMessage.userId + DATE(createdAt) UNIQUE; Match.fromUserId ≠ Match.toUserId; Notification törlődik User törlésekor CASCADE.  
+
 ### 8. Architekturális terv
 
 **Backend:**  
