@@ -348,6 +348,26 @@ Példa kép a login kinézetre:
 - Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
 ---
 
+### 8. Architekturális terv
+
+**Backend:**  
+A rendszert Node.js Express REST API szolgálja ki, amely a Supabase PostgreSQL adatbázishoz csatlakozik.  
+Minden kliens-kérés JWT tokennel azonosított, row-level security védi az adatokat.  
+Az API endpoint-ok `/register`, `/mood`, `/dailyMessage`, `/match` útvonalakon keresztül érhetők el.  
+A Supabase Auth kezeli a felhasználói sessionöket, OAuth-t és e-mail alapú belépést.  
+Realtime chat és mood-frissítés a Supabase Realtime websocketen keresztül történik.  
+
+**AI réteg:**  
+A Gemini API-t a backend hívja meg, prompt cache-elés gyorsítja a <2 mp-es válaszidőt.  
+A napi AI üzeneteket egy cron trigger minden reggel 07:00-kor generálja az aktív felhasználóknak.  
+
+**Web Kliens:**  
+React SPA, react-router-dom alapú routinggal, Bootstrap 5 + egyedi CSS változók a misztikus UI-hoz.  
+Framer Motion animációk a kaparós popup-ban, PWA manifest biztosítja az offline cache-t.  
+Az API-val JSON formátumban kommunikál, minden kéréshez `Authorization: Bearer <JWT>` fejléc tartozik.  
+Supabase Storage-ból tölti be a profilképeket és az AI üzenetekhez tartozó médiaelemeket.  
+Reszponzív, touch-barát komponensek: mood slider, scratchcard, dashboard grafikonok (Recharts).  
+
 ## 13. Karbantartási terv
 
 A SoulMates alkalmazás folyamatos üzemeltetése és karbantartása a stabil működés, a felhasználói elégedettség és a hosszú távú fejlődés érdekében történik. A terv tartalmazza a hibajavításokat, finomhangolásokat, környezeti változások miatti adaptációt és új funkciók bevezetését.
