@@ -22,9 +22,7 @@ A felhasználók többsége emiatt néhány nap után törli az alkalmazást, me
 ### 1.5 Összegzés: a változás szükségessége  
 Összességében a jelenlegi helyzetet egy statikus, elavult, felhasználó-centrikusságot nélkülöző piac jellemzi. Az applikációk túlnyomó része **XX. századi logikával** működik: lexikális tudásra, általános üzenetekre és sablonos élményre épít.  
 A mai digitális közeg viszont gyors, dinamikus és személyre szabott tartalmat igényel, amely egyszerre inspirál, szórakoztat és közösséget teremt.  
-Ez a helyzet teremti meg az igényt egy új generációs, **mesterséges intelligencia alapú**, interaktív és közösségi élményt nyújtó platformra, amely korszerűen közelíti meg az asztrológiát, és képes tartósan bevonni a felhasználókat. A **SoulMates** éppen erre a hiányra ad választ.  
-
-### 1.1. Teendők nyilvántartása
+Ez a helyzet teremti meg az igényt egy új generációs, **mesterséges intelligencia alapú**, interaktív és közösségi élményt nyújtó platformra, amely korszerűen közelíti meg az asztrológiát, és képes tartósan bevonni a felhasználókat. A **SoulMates** éppen erre a hiányra ad választ.
 
 ## 2. Megrendelői vízió (Vágyálom)
 
