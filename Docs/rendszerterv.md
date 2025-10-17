@@ -347,3 +347,29 @@ Példa kép a login kinézetre:
 - A rendszer személyre szabott napi üzenetet generál a felhasználónak, amelyet a **Home** fülnél nézzhet meg.
 - Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
 ---
+
+## 13. Karbantartási terv
+
+A SoulMates alkalmazás folyamatos üzemeltetése és karbantartása a stabil működés, a felhasználói elégedettség és a hosszú távú fejlődés érdekében történik. A terv tartalmazza a hibajavításokat, finomhangolásokat, környezeti változások miatti adaptációt és új funkciók bevezetését.
+
+## Karbantartási típusok
+
+1. **Corrective Maintenance**  
+   - Felhasználói hibajelentések (`user reports`) feldolgozása és javítása  
+   - Backend és frontend bugok gyors elhárítása  
+   - Adatbázis inkonzisztenciák és API hibák kezelése  
+
+2. **Adaptive Maintenance**  
+   - Az alkalmazás kompatibilitásának biztosítása új böngésző- és OS-verziókkal  
+   - Supabase, AI API-k és third-party szolgáltatások frissítése  
+   - Értesítési rendszerek (Firebase/OneSignal) és PWA cache naprakészen tartása  
+
+3. **Perfective Maintenance**  
+   - Felhasználói visszajelzések alapján új funkciók bevezetése  
+   - UI/UX finomítás, animációk optimalizálása  
+   - Dashboard és statisztikák kibővítése, grafikonok teljesítményjavítása  
+
+4. **Preventive Maintenance**  
+   - Biztonsági frissítések alkalmazása (HTTPS, titkosítás, JWT tokenek)  
+   - AI napi üzenet generálás optimalizálása, válaszidő csökkentése  
+   - Adatbázis indexek, cache és load balancing ellenőrzése a skálázhatóság érdekében 
