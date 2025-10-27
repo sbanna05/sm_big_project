@@ -50,6 +50,8 @@ hogy egy modern, trendkövető alkalmazást kínál, amely képes fiatal,
 digitális közönséget megszólítani. Az automatizálás csökkenti a
 működési költségeket, miközben növeli a felhasználói aktivitást.
 
+<img width="513" height="727" alt="rendszer_celja" src="https://github.com/user-attachments/assets/710a129e-cb86-4b64-bd20-9bc74fcf4d8d" />
+
 ---
 
 ## 2. Projekt terv
