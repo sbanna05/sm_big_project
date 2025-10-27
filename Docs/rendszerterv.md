@@ -381,6 +381,11 @@ Példa kép a login kinézetre:
 ### friends
 - (user_id, friend_id)  *összetett elsődleges kulcs*
 
+### Kapcsolatok:
+- **users**-**daily_readings**    1:N
+- **users**-**daily_moods**       1:N
+- **users**-**daily_horoscope**   N:1
+- **users**-**friends**           N:M
 
 
 ### 7. Absztrakt domain modell
