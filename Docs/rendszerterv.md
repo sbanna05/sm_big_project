@@ -318,6 +318,9 @@ MoodLog-ok időszaki halmaza adja a Dashboard moodTrendCache-jét; DailyMessage 
 
 **Szabályok:**  
 MoodValue ∈ {1,2,3,4,5}; vibeScore ∈ [0,1]; DailyMessage.userId + DATE(createdAt) UNIQUE; Match.fromUserId ≠ Match.toUserId; Notification törlődik User törlésekor CASCADE.  
+```mermaid
+
+```
 
 ### 8. Architekturális terv
 
@@ -485,3 +488,14 @@ A SoulMates alkalmazás folyamatos üzemeltetése és karbantartása a stabil m�
    - Biztonsági frissítések alkalmazása (HTTPS, titkosítás, JWT tokenek)  
    - AI napi üzenet generálás optimalizálása, válaszidő csökkentése  
    - Adatbázis indexek, cache és load balancing ellenőrzése a skálázhatóság érdekében 
+
+```mermaid
+stateDiagram-v2
+    [*] --> OPEN : létrehozás / hibajelentés
+    OPEN --> IN_PROGRESS : assign & start
+    IN_PROGRESS --> TESTING : kész a javítás
+    TESTING --> DONE : sikeres teszt
+    TESTING --> IN_PROGRESS : hibás javítás
+    DONE --> [*] : deploy / lezárás
+    DONE --> OPEN : visszajelzés alapján újranyitás
+```
