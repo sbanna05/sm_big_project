@@ -480,6 +480,10 @@ Példa kép a login kinézetre:
 | **T06** | Profile | Profil adatok megadása és szerkesztése. | Az adatok szerkesztése után az adatbázis megfelelően frissül. |
 | **T07**  | Daily message | A napi üzenet legenerálásra került. | A napi üzenet megfelelően, hiba nélkül betöltődik a felhasználónak. | 
 
+## 12.Telepítési terv 
+
+A szoftver webes felületéhez csak egy ajánlott böngésző telepítése szükséges (Google Chrome, Firefox, Opera, Safari), külön szoftver nem kell hozzá. A webszerverre közvetlenül az internetről kapcsolódnak rá a kliensek. 
+
 ## 13. Karbantartási terv
 
 A SoulMates alkalmazás folyamatos üzemeltetése és karbantartása a stabil működés, a felhasználói elégedettség és a hosszú távú fejlődés érdekében történik. A terv tartalmazza a hibajavításokat, finomhangolásokat, környezeti változások miatti adaptációt és új funkciók bevezetését.
