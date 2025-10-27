@@ -136,6 +136,8 @@ Az entitások között relációk állnak fenn (pl. egy felhasználónak több
 MoodLog-ja lehet), amelyek segítik az AI-t a személyre szabott
 tartalomgenerálásban.
 
+<img width="1024" height="1536" alt="uzleti_folyam" src="https://github.com/user-attachments/assets/c0b61e76-8315-40d0-ba9c-519ee6dfd119" />
+
 ---
 ## 4. Funkcionális követelmények részletes leírása
 
