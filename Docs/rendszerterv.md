@@ -319,7 +319,24 @@ MoodLog-ok időszaki halmaza adja a Dashboard moodTrendCache-jét; DailyMessage 
 **Szabályok:**  
 MoodValue ∈ {1,2,3,4,5}; vibeScore ∈ [0,1]; DailyMessage.userId + DATE(createdAt) UNIQUE; Match.fromUserId ≠ Match.toUserId; Notification törlődik User törlésekor CASCADE.  
 ```mermaid
+sequenceDiagram
+    participant S as Scheduler
+    participant AI as AI Service
+    participant DM as DailyMessage
+    participant N as Notification
+    participant U as User
 
+    S->>AI: generateDailyContent(user.zodiacProfile)
+    AI-->>S: content
+    S->>DM: create(userId, content)
+    DM-->>S: OK / UNIQUE constraint
+    alt sikeres létrehozás
+        S->>N: create(type="daily", payload)
+        N-->>S: created
+        N->>U: push / in-app
+    else üzenet már létezik
+        S-->>S: skip day
+    end
 ```
 
 ### 8. Architekturális terv
