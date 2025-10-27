@@ -346,7 +346,42 @@ Példa kép a login kinézetre:
 #### Daily Message
 - A rendszer személyre szabott napi üzenetet generál a felhasználónak, amelyet a **Home** fülnél nézzhet meg.
 - Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
----
+
+
+## 8. Adatbázisterv
+
+### users tábla
+- user_id         *elsődleges kulcs, egyedi*
+- name            *string*
+- email           *egyedi*
+- starsign        *ENUM: a 12 csillagjegy*
+- date_of_birth   *dátum*
+- birthplace      *string*
+- time_of_birth   *dátum*
+- pronouns        *ENUM: he, she, they*
+
+### daily_readings tábla
+- reading_id      *elsődleges kulcs, egyedi*
+- message         *string*
+- date            *dátum*
+- user_id         *külső kulcs*
+
+### daily_horoscopes tábla
+- horoscope_id    *elsődleges kulcs, egyedi*
+- starsign        *külső kulcs*
+- date            *dátum*
+- description     *string*
+
+### daily_moods tábla
+- mood_id         *elsődleges kulcs, egyedi*
+- type            *ENUM: Angry, Sad, Bored, Happy, Excited*
+- logged_at       *dátum*
+- user_id         *külső kulcs*
+
+### friends
+- (user_id, friend_id)  *összetett elsődleges kulcs*
+
+
 
 ### 7. Absztrakt domain modell
 
