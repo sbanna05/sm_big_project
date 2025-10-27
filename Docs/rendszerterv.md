@@ -135,8 +135,104 @@ MoodLog-ja lehet), amelyek segítik az AI-t a személyre szabott
 tartalomgenerálásban.
 
 ---
+## 4. Funkcionális követelmények részletes leírása
 
-## 4. Fizikai környezet
+- **Regisztráció / Onboarding:**  
+  - Űrlap validáció: név, nem, születési dátum/idő/hely  
+  - AI profil generálása Supabase triggerrel  
+
+- **Zodiákus profil kalkuláció:**  
+  - Napjegy, Holdjegy, Aszcendens  
+  - Bolygóállások lekérése AstroPy vagy Swiss Ephemeris API segítségével  
+  - JSON struktúrában tárolás  
+
+- **Mood / Habit log:**  
+  - Felhasználói input 1–5 skálán  
+  - Mentés Supabase `mood_logs` táblába  
+  - Esetleg Grafikon generálás: Chart.js vagy Recharts, időszak szerint szűrhető  
+
+- **AI napi üzenet:**  
+  - Backend API hívás minden aktív felhasználónak  
+  - Rövid, személyre szabott üzenet  
+  - Mentés Supabase `daily_messages` táblába  
+
+- **Interaktív popup:**  
+  - Kaparós vagy animált felfedés  
+  - Framer Motion + react-scratchcard-js  
+
+- **Felhasználói matching:**  
+  - Algoritmus: csillagjegy kompatibilitás + hangulat + AI vibe score  
+  - Ajánlások megjelenítése a frontend-en  
+  - Elfogadás/elutasítás kezelése, kapcsolati fa frissítése  
+
+- **Chat / közösségi funkció:**  
+  - Supabase Realtime API  
+  - Üzenetküldés, emoji reakciók  
+  - Notifikáció érkezéskor  
+
+- **Értesítések:**  
+  - Push notification testreszabás a profilban  
+  - Értesítési preferenciák mentése Supabase-ben  
+
+- **Dashboard / statisztika:**  
+  - Interaktív grafikonok hangulat- és AI trendekről  
+  - AI szöveges kiértékelés  
+
+---
+
+### Biztonság és adatvédelem
+
+- HTTPS minden kommunikációhoz  
+- JWT token alapú session kezelés  
+- Row-level security Supabase táblákban  
+- Felhasználói adat törlés/export lehetőség  
+- GDPR kompatibilitás  
+- Adat anonimizálás 90 nap után (opcionális)  
+
+---
+
+### Teljesítmény és skálázhatóság
+
+- Popup betöltés <1 mp  
+- AI generálás <2–5 mp  
+- Realtime chat és mood log frissítés <1 mp  
+- Skálázható Supabase infrastruktúra akár 10k+ aktív felhasználóig  
+- Lazy load komponensek a frontend teljesítmény optimalizálásához  
+
+
+
+## 5. Funkcionális terv
+
+### Alapfunkciók
+#### Regisztráció
+- Felhasználói profil generálása az adott adatok megadása alapján:
+  - *Név*
+  - *Születési idő*
+  - *Születési hely*
+  - *Születési időpont*
+  - *Nem*
+- A sikeres regisztráció után a Supabase adatbázis automatikusan létrehozza a felhasználó profilját.
+- A profilhoz tartozó *Nap*, *Hold*, és *Aszcendenst* az **AstroPy** vagy a **Swiss Ephemeris API** segítségével kiszámolja a rendszer.
+- A kiszámított asztrológiai jellemzőket az adatbázis **JSON** formában tárolja.
+
+#### Mood Log
+- A felhasználó a napi hangulatát **Daily Mood** fülen értékelheti.
+- Az ott megtalálható 5 csillag közül kiválaszthatja a számára legmegfelelőt:
+  - *Angry*
+  - *Sad*
+  - *Bored*
+  - *Happy*
+  - *Excited*
+- A hangulatváltozások grafikonon követhetőek, amelyek különböző időszakok szerint szűrhetőek:
+  - *hónap*
+  - *hét*
+  - *nap*
+
+#### Daily Message
+- A rendszer személyre szabott napi üzenetet generál a felhasználónak, amelyet a **Home** fülnél nézzhet meg.
+- Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
+
+## 6. Fizikai környezet
 
 - **Szerveroldal / Backend:**  
   - Supabase szolgáltatás: PostgreSQL adatbázis, Auth, Storage, Realtime  
@@ -185,7 +281,107 @@ flowchart TD
 
 ---
 
-## 5. Implementációs terv
+### 7. Absztrakt domain modell
+
+**Entitások:**  
+User, ZodiacProfile, MoodLog, DailyMessage, Match, ChatMessage, Notification, Dashboard.  
+
+**User**  
+- id, name, gender, birthDate, birthTime, birthPlace, email, passwordHash, avatarUrl, createdAt, updatedAt.  
+
+**ZodiacProfile**  
+- userId (FK), sunSign, moonSign, ascendant, calculationHash, createdAt.  
+
+**MoodLog**  
+- id, userId (FK), moodValue (1-5), note, loggedAt, aiFeedback.  
+
+**DailyMessage**  
+- id, userId (FK), content, createdAt, openedAt, scraped (bool).  
+
+**Match**  
+- id, fromUserId (FK), toUserId (FK), vibeScore, status (pending|accepted|declined), createdAt.  
+
+**ChatMessage**  
+- id, matchId (FK), senderId (FK), content, sentAt, readAt.  
+
+**Notification**  
+- id, userId (FK), type (daily|match|chat), payload, isRead, createdAt.  
+
+**Dashboard**  
+- userId (PK), moodTrendCache JSON, lastCalcAt, nextCalcAt.  
+
+**Kapcsolatok:**  
+User 1-1 ZodiacProfile, User 1-N MoodLog, User 1-N DailyMessage, User 1-N Match (as from), User 1-N Match (as to), Match 1-N ChatMessage, User 1-N Notification, User 1-1 Dashboard.  
+
+**Aggregátok:**  
+MoodLog-ok időszaki halmaza adja a Dashboard moodTrendCache-jét; DailyMessage minden User-enként egyedi naponta.  
+
+**Szabályok:**  
+MoodValue ∈ {1,2,3,4,5}; vibeScore ∈ [0,1]; DailyMessage.userId + DATE(createdAt) UNIQUE; Match.fromUserId ≠ Match.toUserId; Notification törlődik User törlésekor CASCADE.  
+
+### 8. Architekturális terv
+
+**Backend:**  
+A rendszert Node.js Express REST API szolgálja ki, amely a Supabase PostgreSQL adatbázishoz csatlakozik.  
+Minden kliens-kérés JWT tokennel azonosított, row-level security védi az adatokat.  
+Az API endpoint-ok `/register`, `/mood`, `/dailyMessage`, `/match` útvonalakon keresztül érhetők el.  
+A Supabase Auth kezeli a felhasználói sessionöket, OAuth-t és e-mail alapú belépést.  
+Realtime chat és mood-frissítés a Supabase Realtime websocketen keresztül történik.  
+
+**AI réteg:**  
+A Gemini API-t a backend hívja meg, prompt cache-elés gyorsítja a <2 mp-es válaszidőt.  
+A napi AI üzeneteket egy cron trigger minden reggel 07:00-kor generálja az aktív felhasználóknak.  
+
+**Web Kliens:**  
+React SPA, react-router-dom alapú routinggal, Bootstrap 5 + egyedi CSS változók a misztikus UI-hoz.  
+Framer Motion animációk a kaparós popup-ban, PWA manifest biztosítja az offline cache-t.  
+Az API-val JSON formátumban kommunikál, minden kéréshez `Authorization: Bearer <JWT>` fejléc tartozik.  
+Supabase Storage-ból tölti be a profilképeket és az AI üzenetekhez tartozó médiaelemeket.  
+Reszponzív, touch-barát komponensek: mood slider, scratchcard, dashboard grafikonok (Recharts). 
+
+## 9. Adatbázisterv
+
+![StarMates_db](https://github.com/user-attachments/assets/51da8df7-2448-4fe8-a7ad-955e753c899d)
+
+### users tábla
+- user_id         *elsődleges kulcs, egyedi*
+- name            *string*
+- email           *egyedi*
+- starsign        *ENUM: a 12 csillagjegy*
+- date_of_birth   *dátum*
+- birthplace      *string*
+- time_of_birth   *dátum*
+- pronouns        *ENUM: he, she, they*
+
+### daily_readings tábla
+- reading_id      *elsődleges kulcs, egyedi*
+- message         *string*
+- date            *dátum*
+- user_id         *külső kulcs*
+
+### daily_horoscopes tábla
+- horoscope_id    *elsődleges kulcs, egyedi*
+- starsign        *külső kulcs*
+- date            *dátum*
+- description     *string*
+
+### daily_moods tábla
+- mood_id         *elsődleges kulcs, egyedi*
+- type            *ENUM: Angry, Sad, Bored, Happy, Excited*
+- logged_at       *dátum*
+- user_id         *külső kulcs*
+
+### friends
+- (user_id, friend_id)  *összetett elsődleges kulcs*
+
+### Kapcsolatok:
+- **users**-**daily_readings**    1:N
+- **users**-**daily_moods**       1:N
+- **users**-**daily_horoscope**   N:1
+- **users**-**friends**           N:M
+
+
+## 10. Implementációs terv
 
 ### Frontend
 
@@ -252,144 +448,7 @@ Példa kép a login kinézetre:
 
 ---
 
-## 6. Funkcionális követelmények részletes leírása
-
-- **Regisztráció / Onboarding:**  
-  - Űrlap validáció: név, nem, születési dátum/idő/hely  
-  - AI profil generálása Supabase triggerrel  
-
-- **Zodiákus profil kalkuláció:**  
-  - Napjegy, Holdjegy, Aszcendens  
-  - Bolygóállások lekérése AstroPy vagy Swiss Ephemeris API segítségével  
-  - JSON struktúrában tárolás  
-
-- **Mood / Habit log:**  
-  - Felhasználói input 1–5 skálán  
-  - Mentés Supabase `mood_logs` táblába  
-  - Esetleg Grafikon generálás: Chart.js vagy Recharts, időszak szerint szűrhető  
-
-- **AI napi üzenet:**  
-  - Backend API hívás minden aktív felhasználónak  
-  - Rövid, személyre szabott üzenet  
-  - Mentés Supabase `daily_messages` táblába  
-
-- **Interaktív popup:**  
-  - Kaparós vagy animált felfedés  
-  - Framer Motion + react-scratchcard-js  
-
-- **Felhasználói matching:**  
-  - Algoritmus: csillagjegy kompatibilitás + hangulat + AI vibe score  
-  - Ajánlások megjelenítése a frontend-en  
-  - Elfogadás/elutasítás kezelése, kapcsolati fa frissítése  
-
-- **Chat / közösségi funkció:**  
-  - Supabase Realtime API  
-  - Üzenetküldés, emoji reakciók  
-  - Notifikáció érkezéskor  
-
-- **Értesítések:**  
-  - Push notification testreszabás a profilban  
-  - Értesítési preferenciák mentése Supabase-ben  
-
-- **Dashboard / statisztika:**  
-  - Interaktív grafikonok hangulat- és AI trendekről  
-  - AI szöveges kiértékelés  
-
----
-
-### Biztonság és adatvédelem
-
-- HTTPS minden kommunikációhoz  
-- JWT token alapú session kezelés  
-- Row-level security Supabase táblákban  
-- Felhasználói adat törlés/export lehetőség  
-- GDPR kompatibilitás  
-- Adat anonimizálás 90 nap után (opcionális)  
-
----
-
-### Teljesítmény és skálázhatóság
-
-- Popup betöltés <1 mp  
-- AI generálás <2–5 mp  
-- Realtime chat és mood log frissítés <1 mp  
-- Skálázható Supabase infrastruktúra akár 10k+ aktív felhasználóig  
-- Lazy load komponensek a frontend teljesítmény optimalizálásához  
-
-## 7. Funkcionális terv
-
-### Alapfunkciók
-#### Regisztráció
-- Felhasználói profil generálása az adott adatok megadása alapján:
-  - *Név*
-  - *Születési idő*
-  - *Születési hely*
-  - *Születési időpont*
-  - *Nem*
-- A sikeres regisztráció után a Supabase adatbázis automatikusan létrehozza a felhasználó profilját.
-- A profilhoz tartozó *Nap*, *Hold*, és *Aszcendenst* az **AstroPy** vagy a **Swiss Ephemeris API** segítségével kiszámolja a rendszer.
-- A kiszámított asztrológiai jellemzőket az adatbázis **JSON** formában tárolja.
-
-#### Mood Log
-- A felhasználó a napi hangulatát **Daily Mood** fülen értékelheti.
-- Az ott megtalálható 5 csillag közül kiválaszthatja a számára legmegfelelőt:
-  - *Angry*
-  - *Sad*
-  - *Bored*
-  - *Happy*
-  - *Excited*
-- A hangulatváltozások grafikonon követhetőek, amelyek különböző időszakok szerint szűrhetőek:
-  - *hónap*
-  - *hét*
-  - *nap*
-
-#### Daily Message
-- A rendszer személyre szabott napi üzenetet generál a felhasználónak, amelyet a **Home** fülnél nézzhet meg.
-- Az üzenetet interaktív formában (*kaparós kártya*) jelenik meg a felhasználónak.
-
-
-## 8. Adatbázisterv
-
-![StarMates_db](https://github.com/user-attachments/assets/51da8df7-2448-4fe8-a7ad-955e753c899d)
-
-### users tábla
-- user_id         *elsődleges kulcs, egyedi*
-- name            *string*
-- email           *egyedi*
-- starsign        *ENUM: a 12 csillagjegy*
-- date_of_birth   *dátum*
-- birthplace      *string*
-- time_of_birth   *dátum*
-- pronouns        *ENUM: he, she, they*
-
-### daily_readings tábla
-- reading_id      *elsődleges kulcs, egyedi*
-- message         *string*
-- date            *dátum*
-- user_id         *külső kulcs*
-
-### daily_horoscopes tábla
-- horoscope_id    *elsődleges kulcs, egyedi*
-- starsign        *külső kulcs*
-- date            *dátum*
-- description     *string*
-
-### daily_moods tábla
-- mood_id         *elsődleges kulcs, egyedi*
-- type            *ENUM: Angry, Sad, Bored, Happy, Excited*
-- logged_at       *dátum*
-- user_id         *külső kulcs*
-
-### friends
-- (user_id, friend_id)  *összetett elsődleges kulcs*
-
-### Kapcsolatok:
-- **users**-**daily_readings**    1:N
-- **users**-**daily_moods**       1:N
-- **users**-**daily_horoscope**   N:1
-- **users**-**friends**           N:M
-
-## 9. Tesztterv
+## 11. Tesztterv
 
 | **Teszt id** | **Oldal** | **Leírás** | **Elvárt eredmény** |
 |--------------|-----------|------------|---------------------|
@@ -399,65 +458,7 @@ Példa kép a login kinézetre:
 | **T04** | Daily Mood | Hangulat kiválasztása a megadottak közül. | A kiválasztott hangulat színe megváltozik és mentésre kerül. |
 | **T05** | Mood Graph | A *Mood Graph* gomb megfelelően működik. | A gombra kattintva megjelennek a felhasználó mentett napi hangulatai grafikon formájában. |
 | **T06** | Profile | Profil adatok megadása és szerkesztése. | Az adatok szerkesztése után az adatbázis megfelelően frissül. |
-| **T07**  | Daily message | A napi üzenet legenerálásra került. | A napi üzenet megfelelően, hiba nélkül betöltődik a felhasználónak. |
-
-### 7. Absztrakt domain modell
-
-**Entitások:**  
-User, ZodiacProfile, MoodLog, DailyMessage, Match, ChatMessage, Notification, Dashboard.  
-
-**User**  
-- id, name, gender, birthDate, birthTime, birthPlace, email, passwordHash, avatarUrl, createdAt, updatedAt.  
-
-**ZodiacProfile**  
-- userId (FK), sunSign, moonSign, ascendant, calculationHash, createdAt.  
-
-**MoodLog**  
-- id, userId (FK), moodValue (1-5), note, loggedAt, aiFeedback.  
-
-**DailyMessage**  
-- id, userId (FK), content, createdAt, openedAt, scraped (bool).  
-
-**Match**  
-- id, fromUserId (FK), toUserId (FK), vibeScore, status (pending|accepted|declined), createdAt.  
-
-**ChatMessage**  
-- id, matchId (FK), senderId (FK), content, sentAt, readAt.  
-
-**Notification**  
-- id, userId (FK), type (daily|match|chat), payload, isRead, createdAt.  
-
-**Dashboard**  
-- userId (PK), moodTrendCache JSON, lastCalcAt, nextCalcAt.  
-
-**Kapcsolatok:**  
-User 1-1 ZodiacProfile, User 1-N MoodLog, User 1-N DailyMessage, User 1-N Match (as from), User 1-N Match (as to), Match 1-N ChatMessage, User 1-N Notification, User 1-1 Dashboard.  
-
-**Aggregátok:**  
-MoodLog-ok időszaki halmaza adja a Dashboard moodTrendCache-jét; DailyMessage minden User-enként egyedi naponta.  
-
-**Szabályok:**  
-MoodValue ∈ {1,2,3,4,5}; vibeScore ∈ [0,1]; DailyMessage.userId + DATE(createdAt) UNIQUE; Match.fromUserId ≠ Match.toUserId; Notification törlődik User törlésekor CASCADE.  
-
-### 8. Architekturális terv
-
-**Backend:**  
-A rendszert Node.js Express REST API szolgálja ki, amely a Supabase PostgreSQL adatbázishoz csatlakozik.  
-Minden kliens-kérés JWT tokennel azonosított, row-level security védi az adatokat.  
-Az API endpoint-ok `/register`, `/mood`, `/dailyMessage`, `/match` útvonalakon keresztül érhetők el.  
-A Supabase Auth kezeli a felhasználói sessionöket, OAuth-t és e-mail alapú belépést.  
-Realtime chat és mood-frissítés a Supabase Realtime websocketen keresztül történik.  
-
-**AI réteg:**  
-A Gemini API-t a backend hívja meg, prompt cache-elés gyorsítja a <2 mp-es válaszidőt.  
-A napi AI üzeneteket egy cron trigger minden reggel 07:00-kor generálja az aktív felhasználóknak.  
-
-**Web Kliens:**  
-React SPA, react-router-dom alapú routinggal, Bootstrap 5 + egyedi CSS változók a misztikus UI-hoz.  
-Framer Motion animációk a kaparós popup-ban, PWA manifest biztosítja az offline cache-t.  
-Az API-val JSON formátumban kommunikál, minden kéréshez `Authorization: Bearer <JWT>` fejléc tartozik.  
-Supabase Storage-ból tölti be a profilképeket és az AI üzenetekhez tartozó médiaelemeket.  
-Reszponzív, touch-barát komponensek: mood slider, scratchcard, dashboard grafikonok (Recharts).  
+| **T07**  | Daily message | A napi üzenet legenerálásra került. | A napi üzenet megfelelően, hiba nélkül betöltődik a felhasználónak. | 
 
 ## 13. Karbantartási terv
 
