@@ -50,6 +50,8 @@ hogy egy modern, trendkövető alkalmazást kínál, amely képes fiatal,
 digitális közönséget megszólítani. Az automatizálás csökkenti a
 működési költségeket, miközben növeli a felhasználói aktivitást.
 
+<img width="513" height="727" alt="rendszer_celja" src="https://github.com/user-attachments/assets/710a129e-cb86-4b64-bd20-9bc74fcf4d8d" />
+
 ---
 
 ## 2. Projekt terv
@@ -133,6 +135,8 @@ ahol a csapattagok értékelik a haladást és meghatározzák a következő hé
 Az entitások között relációk állnak fenn (pl. egy felhasználónak több
 MoodLog-ja lehet), amelyek segítik az AI-t a személyre szabott
 tartalomgenerálásban.
+
+<img width="1024" height="1536" alt="uzleti_folyam" src="https://github.com/user-attachments/assets/c0b61e76-8315-40d0-ba9c-519ee6dfd119" />
 
 ---
 ## 4. Funkcionális követelmények részletes leírása
