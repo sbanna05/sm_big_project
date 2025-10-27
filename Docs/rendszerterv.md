@@ -350,6 +350,8 @@ Példa kép a login kinézetre:
 
 ## 8. Adatbázisterv
 
+![StarMates_db](https://github.com/user-attachments/assets/51da8df7-2448-4fe8-a7ad-955e753c899d)
+
 ### users tábla
 - user_id         *elsődleges kulcs, egyedi*
 - name            *string*
