@@ -52,13 +52,34 @@ A dizájn célja, hogy a felhasználó **szívesen térjen vissza** nap mint nap
 &#128504; A rendszer hiba nélkül működik 1000+ felhasználó esetén.<br>
 &#128504; A UI/UX megfelel a modern design elvárásoknak.
 
-## 2. Általános leírás
+## 2. Jelenlegi helyzet
 
-### 2.1 Célcsoport
+### 2.1 Az asztrológiai piac jelenlegi állapota
+Az asztrológiai alkalmazások piaca az elmúlt években jelentős növekedést mutatott. A digitális spiritualitás trendje, amely az önreflexiót és az érzelmi tudatosságot ötvözi a technológiával, globális méretűvé vált. A fiatal felnőttek egyre gyakrabban fordulnak ezekhez az eszközökhöz, hogy segítséget kapjanak döntéseikben, vagy egyszerűen csak önismereti céllal használják őket.  
+A piaci kutatások szerint az asztrológiai applikációk globális bevétele 2024-ben elérte a **3–4 milliárd dollárt**, és 2030-ra várhatóan meghaladja a **9 milliárdot**. Ez a 20–25%-os éves növekedési ráta egyértelműen mutatja, hogy a téma iránti érdeklődés tartós, és a kereslet tovább növekszik.  
+A trendek azt jelzik, hogy a felhasználók már nem pusztán horoszkópot szeretnének olvasni, hanem komplex, interaktív, személyre szabott élményre vágynak.
 
-### 2.2 Fő funkciók
+### 2.2 A jelenlegi alkalmazások hiányosságai
+A legnépszerűbb asztrológiai alkalmazások, mint a **Co-Star**, **The Pattern** és **Sanctuary**, alapvetően statikus működésűek. Bár személyes adatokat használnak, a napi horoszkópok többsége előre gyártott, sablonos üzenet, amely nem tükrözi a felhasználó aktuális érzelmi vagy mentális állapotát.  
+Ezek az appok nem képesek valódi személyre szabásra, így a felhasználói élmény gyorsan monotonná válik. A kommunikáció egyirányú: a rendszer üzen, a felhasználó passzívan olvas. Hiányzik az interaktivitás, az önreflexió, valamint a közösségi dimenzió, amely hosszú távon megtartaná az érdeklődést.  
+Ennek következtében a legtöbb felhasználó néhány nap után elveszti motivációját, és törli az alkalmazást, mert nem érez valódi kapcsolatot a tartalommal.
 
-### 2.3 Rendszer környezete
+### 2.3 A célcsoport és a digitális kultúra változása
+A **18–35 év közötti digitális generáció** az azonosulható, személyre szabott élményeket keresi. Ők nem információt, hanem interakciót, visszajelzést és közösséget várnak el. A közösségi média – különösen a **TikTok** és az **Instagram** – olyan vizuális, gyorsan fogyasztható élményeket tett népszerűvé, amelyekben az önkifejezés kulcsfontosságú.  
+A modern felhasználó azonnali érzelmi visszacsatolást akar. A napi horoszkóp-olvasás önmagában már nem elég, helyette egy **játékos, élményalapú rendszerre** van igény, ahol a tartalomhoz személyes bevonódás kapcsolódik.  
+A jelenlegi asztrológiai appok nem integrálódnak a közösségi trendekbe, nem kínálnak megosztható tartalmakat, vizuális statisztikákat vagy interaktív mechanikákat, amelyek a felhasználói aktivitást ösztönöznék.
+
+### 2.4 Technológiai és bizalmi problémák
+A piacon jelenlévő alkalmazások technológiai szempontból elavultak. Az AI-integráció ritka, a legtöbb rendszer nem képes valós idejű tartalomgenerálásra. Az adatfeldolgozás gyakran átláthatatlan, a felhasználók személyes adatai – születési idő, hely, érzelmi naplók – nem mindig biztonságos környezetben kerülnek tárolásra.  
+Ez bizalmi problémákat vet fel, különösen az **adatvédelem** és a **GDPR-megfelelés** hiánya miatt. A felhasználók olyan megoldásokat keresnek, amelyek átlátható adatkezelést, titkosítást és kontrollt biztosítanak saját információik felett.  
+További technikai hiányosság, hogy a legtöbb app nem rendelkezik valós idejű értesítésekkel, chat- vagy közösségi modulokkal. A tartalom statikus, a platformok nem tanulnak a felhasználói visszajelzésekből. Az algoritmusok semmilyen formában nem alkalmazkodnak a felhasználó viselkedéséhez vagy hangulatához.
+
+### 2.5 Összegzés: a változás szükségessége
+A jelenlegi piac statikus, tömegesített és elavult élményt kínál. A felhasználók aktív, dinamikus és személyre szabott interakcióra vágynak, ahol az alkalmazás nemcsak információforrás, hanem **digitális társ** is.  
+A **SoulMates** projekt pontosan erre az igényre ad választ: egy **mesterséges intelligencia által támogatott, személyre szabott, interaktív asztrológiai élményt** kínál, amely ötvözi az önismeretet, a napi reflektálást és a közösségi kapcsolódást.  
+A cél, hogy a felhasználó ne passzív fogyasztó legyen, hanem aktív résztvevő, aki nap mint nap kapcsolatba lép saját lelki és csillagászati világával.  
+Ezzel a SoulMates új alapokra helyezi az asztrológiai alkalmazások működését: dinamikus tartalmat, AI-támogatást, interaktív felületet és biztonságos adatkezelést kínál.  
+A projekt nem csupán egy új alkalmazás, hanem **a digitális önismeret következő generációja**, amely a 21. század technológiai és érzelmi igényeire reagál.
 
 ---
 
