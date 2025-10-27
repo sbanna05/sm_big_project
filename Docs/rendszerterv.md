@@ -389,6 +389,17 @@ Példa kép a login kinézetre:
 - **users**-**daily_horoscope**   N:1
 - **users**-**friends**           N:M
 
+## 9. Tesztterv
+
+| **Teszt id** | **Oldal** | **Leírás** | **Elvárt eredmény** |
+|--------------|-----------|------------|---------------------|
+| **T01** | Home | Az oldal betöltése után megjelenik a napi üzenet. | Az üzenet, felhasználó neve és gombok helyesen megjelenítődnek. |
+| **T02** | Navigáció | A menüsor elemei kattinthatóak. | Az adott menüpontra kattintva a megfelelő oldal töltődik be. |
+| **T03** | Reading | A felhasználó csillagjegyéhez tartozó napi üzenet jelenítődik meg. | A megfelelő horoszkóp és dátumú napi üzenet jelenítődik meg. |
+| **T04** | Daily Mood | Hangulat kiválasztása a megadottak közül. | A kiválasztott hangulat színe megváltozik és mentésre kerül. |
+| **T05** | Mood Graph | A *Mood Graph* gomb megfelelően működik. | A gombra kattintva megjelennek a felhasználó mentett napi hangulatai grafikon formájában. |
+| **T06** | Profile | Profil adatok megadása és szerkesztése. | Az adatok szerkesztése után az adatbázis megfelelően frissül. |
+| **T07**  | Daily message | A napi üzenet legenerálásra került. | A napi üzenet megfelelően, hiba nélkül betöltődik a felhasználónak. |
 
 ### 7. Absztrakt domain modell
 
