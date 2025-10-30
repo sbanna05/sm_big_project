@@ -24,7 +24,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <Header />
+      
 
       <div className="profile-card">
         <h2>Welcome at <span>SoulMates</span></h2>
