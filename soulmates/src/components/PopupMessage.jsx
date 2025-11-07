@@ -1,11 +1,10 @@
-import React from "react";
 import ScratchCard from "react-scratchcard";
 
 const PopupMessage = ({ message }) => {
   const settings = {
     width: 300,
     height: 200,
-    image: "/images/scratch.png",
+    image: "/card.png",
     finishPercent: 70
   };
 
