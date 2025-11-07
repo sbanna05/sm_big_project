@@ -1,4 +1,4 @@
-import ScratchCard from "react-scratchcard";
+import ScratchCard from "react-scratchcard-v2";
 
 const PopupMessage = ({ message }) => {
   const settings = {
