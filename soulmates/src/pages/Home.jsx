@@ -15,16 +15,15 @@ const Home = () => {
     fetchUser();
   }, []);
 
-  
-
+  user && console.log("User data:", user);
 
   return (
     <>
       <h1>Today’s Energies Are Speaking — Are You Listening?</h1>
-      <PopupMessage message="Love is on the horizon! Keep your heart open and your spirit adventurous." />
+      {user && (<PopupMessage starsign={user.starsign} user={user}/>)}
       {user && (
         <div className="user-greeting">
-          <h2>Welcome back, {user.name}!</h2>
+          <h2>Welcome back, {user.name} {user.starsign}!</h2>
           <p>Your stars are aligning for a day full of possibilities. Embrace the cosmic
             energy and let it guide you to new connections and adventures.</p>
         </div>
