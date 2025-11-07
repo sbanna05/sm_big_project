@@ -11,7 +11,6 @@ const PopupMessage = ({ message }) => {
   return (
     <ScratchCard {...settings}>
       <div className="text-center p-3">
-        <h4>✨ The Stars have a message for you ✨</h4>
         <p>{message}</p>
       </div>
     </ScratchCard>

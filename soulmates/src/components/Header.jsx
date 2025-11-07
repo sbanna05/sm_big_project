@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 const Header = () => {
   return (
     <header className="flex gap-4 p-4 bg-gray-100 shadow-md navbar">
-      <div className="logo">✨ SoulmMates ✨</div>
+      <div className="logo">✨ StarMates ✨</div>
       <ul className="flex gap-4">
         <li>
           <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>

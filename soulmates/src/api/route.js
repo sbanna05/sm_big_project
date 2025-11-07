@@ -1,10 +1,10 @@
-import { supabase } from "./supabaseClient.js";
+import { supabase } from "../services/supabaseClient.js";
 
 export const getUsers = async () => {
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .order("user_id", { ascending: true });
+    .order("id", { ascending: true });
 
   if (error) throw error;
   return data || [];
