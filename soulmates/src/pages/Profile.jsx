@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../assets/profile.css";
-import Header from "../components/Header";
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +7,7 @@ const Profile = () => {
     dob: "",
     birthplace: "",
     birthtime: "",
-    pronoun: "she",
+    pronoun: "",
   });
 
   const handleChange = (e) => {
