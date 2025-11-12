@@ -3,6 +3,7 @@ import PopupMessage from "../components/PopupMessage"
 import { getUsers } from "../api/route";
 
 const Home = () => {
+  //const { user, signOutUser } = UserAuth();
   const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchUser = async () => {

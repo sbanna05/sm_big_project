@@ -17,7 +17,7 @@ export default function Register() {
         name,
         email,
         password,
-        birthdate
+        date_of_birth: birthdate,
       };
       const addedUser = await addUser(user);
       console.log("User added:", addedUser);

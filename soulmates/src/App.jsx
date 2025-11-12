@@ -5,6 +5,9 @@ import Profile from "./pages/Profile";
 import Friends from "./pages/Friends";
 import MoodBoard from "./pages/MoodBoard";
 import Reading from "./pages/Reading";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { AuthContextProvider } from "./context/AuthContext";
 
 function Layout() {
   return (
@@ -13,6 +16,8 @@ function Layout() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/moodboard" element={<MoodBoard />} />
@@ -25,9 +30,11 @@ function Layout() {
 
 function App() {
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </AuthContextProvider>
   );
 }
 
