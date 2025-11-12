@@ -16,7 +16,7 @@ const Login = () => {
     if (!result.success) {
       setError(result.error.message);
     } else {
-      navigate("/home"); 
+      navigate("/home");
     }
   };
 

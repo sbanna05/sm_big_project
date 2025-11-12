@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
-import { addUser } from "../api/route";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -21,13 +20,12 @@ const Register = () => {
     try {
       const result = await signUpNewUser(email, password, name);
       if (result.success) {
-        await addUser({ name, email });
-        navigate("/login");
+        navigate("/login"); // sikeres regisztráció után login oldal
       } else {
-        setError(result.error.message);
+        setError(result.error.message || result.error);
       }
     } catch (err) {
-      setError(err.message || "Ismeretlen hiba");
+      setError(err.message || "Ismeretlen hiba történt");
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import "../assets/popup.css";
 import { getMoods } from "../api/route";
 
-const PopupMessage = ({ starsign = "Aries", user}) => {
+const PopupMessage = ({starsign = "Taurus", user}) => {
   const [message, setMessage] = useState("✨ The stars are aligning... ✨");
   const [visible, setVisible] = useState(true);
   const [mood, setMood] = useState("");
