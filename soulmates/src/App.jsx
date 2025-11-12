@@ -9,10 +9,21 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthContextProvider } from "./context/AuthContext";
 
+import { useLocation } from "react-router-dom";
+import { UserAuth } from "./context/AuthContext";
+
 function Layout() {
+  const { user } = UserAuth();
+  const location = useLocation();
+
+  // Azok az útvonalak, ahol NEM akarod a Header-t
+  const hideHeaderRoutes = ["/login", "/signup"];
+
+  const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
+
   return (
     <>
-      <Header />
+      {!shouldHideHeader && user && <Header />}
       <main>
         <Routes>
           <Route path="/home" element={<Home />} />
@@ -27,6 +38,7 @@ function Layout() {
     </>
   );
 }
+
 
 function App() {
   return (
