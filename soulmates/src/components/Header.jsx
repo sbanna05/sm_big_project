@@ -1,18 +1,38 @@
-import React from 'react'
+import { Link, NavLink } from "react-router-dom";
 
-function Header() {
+const Header = () => {
   return (
-    <nav className="navbar">
-        <h1 className="logo">SoulMates</h1>
-        <ul>
-          <li>Home</li>
-          <li>Reading</li>
-          <li>Daily Mood</li>
-          <li>Friends</li>
-          <li className="active">Profile</li>
-        </ul>
-      </nav>
-  )
-}
+    <header className="flex gap-4 p-4 bg-gray-100 shadow-md navbar">
+      <div className="logo">✨ StarMates ✨</div>
+      <ul className="flex gap-4">
+        <li>
+          <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+            Home
+          </NavLink>
+        </li>
+       <li>
+          <NavLink to="/reading" className={({ isActive }) => (isActive ? "active" : "")}>
+            Reading
+          </NavLink>
+       </li>
+       <li>
+          <NavLink to="/moodboard" className={({ isActive }) => (isActive ? "active" : "")}>
+            Daily Mood
+          </NavLink>
+       </li>
+        <li>
+          <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+            Profile
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/friends" className={({ isActive }) => (isActive ? "active" : "")}>
+            Friends
+          </NavLink>
+        </li>
+      </ul>
+    </header>
+  );
+};
 
-export default Header
+export default Header;
