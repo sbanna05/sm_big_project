@@ -1,38 +1,31 @@
 import React, {useState} from 'react'
+import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import "../assets/moodboard.css";
+
 
 function LogMoods() {
   const[selectedMood, setSelectedMood] = useState(null);
   const[loggedMoods, setLoggedMoods] = useState([]);
+  const navigate = useNavigate();
 
   const moods = ["Angry","Sad", "Bored", "Happy", "Excited"];
 
   const handleStarClick = (index) => {
     setSelectedMood(index);
-    const newMood = { rating: index + 1, mood: moods[index], date: new Date().toLocaleDateString};
+    const newMood = { rating: index + 1, mood: moods[index], date: new Date().toLocaleDateString()};
     setLoggedMoods([...loggedMoods, newMood]);
-    alert(`${moods[index]} mood has been logged`);
-  };
-
-  const handleShowMoods = () => {
-    if(loggedMoods.length == 0){
-      alert("You have no logged moods");
-      return;
-    }
-    const list = loggedMoods
-      .map((m, i) => `${i+1}. ${m.mood} (${m.date})`)
-      .join("\n");
-    alert(`Logged mood: ${list}`); 
+    //alert(`${moods[index]} mood has been logged`);
   };
 
   return(
     <div className='moodboard-container'>
-        <div className='stars'>
+      <div className='stars'>
             {[...Array(5)].map((_, index) =>(
                 <FaStar
                     key={index}
                     size={50}
-                    className={index <= selectedMood ? "star active": "star"}
+                    className={selectedMood !==null && index <= selectedMood ? "star active": "star"}
                     onClick={() => handleStarClick(index)}
                 />
             ))}
@@ -46,7 +39,7 @@ function LogMoods() {
             ))}
         </div>
 
-        <button onClick={handleShowMoods}>Mood Graph</button>
+        <button onClick={() => navigate("/graph", {state: {data: loggedMoods}})} className='graph-mood'>Mood Graph</button>
 
     </div>
   );

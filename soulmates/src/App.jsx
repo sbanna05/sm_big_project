@@ -5,6 +5,7 @@ import Profile from "./pages/Profile";
 import Friends from "./pages/Friends";
 import MoodBoard from "./pages/MoodBoard";
 import Reading from "./pages/Reading";
+import MoodGraph from "./components/MoodGraph";
 
 function Layout() {
   return (
@@ -17,6 +18,7 @@ function Layout() {
           <Route path="/friends" element={<Friends />} />
           <Route path="/moodboard" element={<MoodBoard />} />
           <Route path="/reading" element={<Reading />} />
+          <Route path="/graph" element={<MoodGraph />} />
         </Routes>
       </main>
     </>

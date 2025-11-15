@@ -1,4 +1,5 @@
 import React from 'react'
+import LogMoods from '../components/LogMoods'
 
 function MoodBoard() {
   return (
