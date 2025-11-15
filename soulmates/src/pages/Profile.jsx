@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "../assets/profile.css";
 import { UserAuth } from "../context/AuthContext";
+import { supabase } from "../services/supabaseClient";
 import { updateUserProfile } from "../api/route";
 
 const Profile = () => {
@@ -13,6 +14,33 @@ const Profile = () => {
     birthtime: "",
     pronoun: "",
   });
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching profile:", error.message);
+        return;
+      }
+
+      setFormData({
+        name: data.name || "",
+        dob: data.date_of_birth ? data.date_of_birth.split("T")[0] : "",
+        birthplace: data.birthplace || "",
+        birthtime: data.time_of_birth || "",
+        pronoun: data.pronouns || "",
+      });
+    };
+
+    fetchProfile();
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +63,6 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-
       <div className="profile-card">
         <h2>Welcome at <span>SoulMates</span></h2>
         <p className="subtitle">where stars align and souls connect</p>
@@ -52,7 +79,7 @@ const Profile = () => {
           <label>Date of Birth</label>
           <input
             name="dob"
-            placeholder="yyyy/mm/dd"
+            type="date"
             value={formData.dob}
             onChange={handleChange}
           />
@@ -68,16 +95,40 @@ const Profile = () => {
           <label>Time of Birth</label>
           <input
             name="birthtime"
-            placeholder="hh:mm"
+            type="time"
             value={formData.birthtime}
             onChange={handleChange}
           />
 
           <label>Pronouns</label>
           <div className="radio-group">
-            <label><input type="radio" name="pronoun" value="she" checked={formData.pronoun === "she"} onChange={handleChange}/> She</label>
-            <label><input type="radio" name="pronoun" value="he" checked={formData.pronoun === "he"} onChange={handleChange}/> He</label>
-            <label><input type="radio" name="pronoun" value="they" checked={formData.pronoun === "they"} onChange={handleChange}/> They</label>
+            <label>
+              <input
+                type="radio"
+                name="pronoun"
+                value="she"
+                checked={formData.pronoun === "she"}
+                onChange={handleChange}
+              /> She
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="pronoun"
+                value="he"
+                checked={formData.pronoun === "he"}
+                onChange={handleChange}
+              /> He
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="pronoun"
+                value="they"
+                checked={formData.pronoun === "they"}
+                onChange={handleChange}
+              /> They
+            </label>
           </div>
 
           <button type="submit">Save</button>
