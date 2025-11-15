@@ -76,3 +76,31 @@ export const addUser = async (user) => {
     if (error) throw error;
     return data[0];
 }
+
+export const updateUserProfile = async (userId, profileData) => {
+  const {
+    name,
+    dob,
+    birthplace,
+    birthtime,
+    pronoun
+  } = profileData;
+
+  // Supabase timestamp formátumra alakítás
+  const date_of_birth = dob ? new Date(dob).toISOString() : null;
+  const time_of_birth = birthtime || null;
+
+  const { data, error } = await supabase
+    .from("users")
+    .update({
+      name,
+      date_of_birth,
+      birthplace,
+      time_of_birth,
+      pronouns: pronoun,
+    })
+    .eq("id", userId);
+
+  if (error) throw error;
+  return data;
+};

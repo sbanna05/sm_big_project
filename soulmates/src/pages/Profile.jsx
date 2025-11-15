@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "../assets/profile.css";
+import { UserAuth } from "../context/AuthContext";
+import { updateUserProfile } from "../api/route";
 
 const Profile = () => {
+  const { user } = UserAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -15,10 +19,18 @@ const Profile = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Saved profile:", formData);
-    alert("Profile saved successfully ✨");
+    try {
+      if (!user) throw new Error("User not logged in");
+
+      await updateUserProfile(user.id, formData);
+
+      alert("Profile saved successfully ✨");
+    } catch (err) {
+      console.error("Profile update error:", err.message);
+      alert("Error saving profile: " + err.message);
+    }
   };
 
   return (
