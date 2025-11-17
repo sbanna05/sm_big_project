@@ -206,6 +206,7 @@ tartalomgenerálásban.
 
 
 ## 5. Funkcionális terv
+<img width="2848" height="943" alt="Képernyőkép 2025-10-27 114935" src="https://github.com/user-attachments/assets/1f913228-c64f-4960-8488-219429abcef5" />
 
 ### Alapfunkciók
 #### Regisztráció
