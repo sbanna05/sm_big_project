@@ -6,7 +6,7 @@ const Header = () => {
       <div className="logo">✨ StarMates ✨</div>
       <ul className="flex gap-4">
         <li>
-          <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+          <NavLink to="/home" className={({ isActive }) => (isActive ? "active" : "")}>
             Home
           </NavLink>
         </li>

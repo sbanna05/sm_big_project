@@ -5,14 +5,30 @@ import Profile from "./pages/Profile";
 import Friends from "./pages/Friends";
 import MoodBoard from "./pages/MoodBoard";
 import Reading from "./pages/Reading";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { AuthContextProvider } from "./context/AuthContext";
+
+import { useLocation } from "react-router-dom";
+import { UserAuth } from "./context/AuthContext";
 
 function Layout() {
+  const { user } = UserAuth();
+  const location = useLocation();
+
+  // Azok az útvonalak, ahol NEM akarod a Header-t
+  const hideHeaderRoutes = ["/login", "/signup"];
+
+  const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
+
   return (
     <>
-      <Header />
+      {!shouldHideHeader && user && <Header />}
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/moodboard" element={<MoodBoard />} />
@@ -23,11 +39,14 @@ function Layout() {
   );
 }
 
+
 function App() {
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </AuthContextProvider>
   );
 }
 

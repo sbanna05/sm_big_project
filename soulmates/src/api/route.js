@@ -10,6 +10,46 @@ export const getUsers = async () => {
   return data || [];
 };
 
+export const getCurrentUser = async () => {
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) throw sessionError;
+
+  const userId = session?.user?.id;
+  if (!userId) return null;
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
+};
+
+
+export const getLatestMood = async () => {
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) throw sessionError;
+
+  const userId = session?.user?.id;
+  if (!userId) {
+    throw new Error("No logged-in user found.");
+  }
+
+  const { data, error } = await supabase
+    .from("daily_moods")
+    .select("*")
+    .eq("user_id", userId)
+    .order("logged_at", { ascending: false })
+    .limit(1)
+    .single();
+  if (error) throw error;
+
+  return data || null;
+};
+
+
 export const getMoods = async (user) => {
   if (!user || !user.id) {
     throw new Error("No valid user provided.");
@@ -36,3 +76,31 @@ export const addUser = async (user) => {
     if (error) throw error;
     return data[0];
 }
+
+export const updateUserProfile = async (userId, profileData) => {
+  const {
+    name,
+    dob,
+    birthplace,
+    birthtime,
+    pronoun
+  } = profileData;
+
+  // Supabase timestamp formátumra alakítás
+  const date_of_birth = dob ? new Date(dob).toISOString() : null;
+  const time_of_birth = birthtime || null;
+
+  const { data, error } = await supabase
+    .from("users")
+    .update({
+      name,
+      date_of_birth,
+      birthplace,
+      time_of_birth,
+      pronouns: pronoun,
+    })
+    .eq("id", userId);
+
+  if (error) throw error;
+  return data;
+};
