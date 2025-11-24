@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import PopupMessage from "../components/PopupMessage";
 import { UserAuth } from "../context/AuthContext";
 import { getCurrentUser } from "../api/route";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user: authUser, loading, signOutUser } = UserAuth();
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
@@ -24,7 +26,12 @@ const Home = () => {
   }, [loading, authUser]);
 
   const handleLogout = async () => {
-    await signOutUser();
+    try {
+      await signOutUser();
+      navigate("/login"); // ✅ NAVIGÁLJ A KIJELENTKEZÉS UTÁN! }
+    } catch (error) {
+      console.error("Hiba a kijelentkezéskor:", error);
+    }
   };
 
   if (loading) return <p>Loading...</p>;
@@ -42,7 +49,9 @@ const Home = () => {
 
       {user && (
         <div className="user-greeting d-flex flex-column align-items-center mt-5">
-          <h2>Welcome back, {user.name} ({user.starsign})!</h2>
+          <h2>
+            Welcome back, {user.name} ({user.starsign})!
+          </h2>
           <p>Embrace the cosmic energy and explore new possibilities today!</p>
         </div>
       )}
