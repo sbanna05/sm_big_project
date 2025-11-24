@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -13,10 +13,9 @@ import { useLocation } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
 
 function Layout() {
-  const { user } = UserAuth();
-  const location = useLocation();
+  const { user, loading } = UserAuth(); // A 'loading' állapotot is használd
+  const location = useLocation(); // Azok az útvonalak, ahol NEM akarod a Header-t
 
-  // Azok az útvonalak, ahol NEM akarod a Header-t
   const hideHeaderRoutes = ["/login", "/signup"];
 
   const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
@@ -26,6 +25,18 @@ function Layout() {
       {!shouldHideHeader && user && <Header />}
       <main>
         <Routes>
+          <Route
+            path="/"
+            element={
+              loading ? (
+                <div>Loading...</div>
+              ) : user ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
@@ -39,6 +50,7 @@ function Layout() {
   );
 }
 
+// ... App komponens ...
 
 function App() {
   return (
