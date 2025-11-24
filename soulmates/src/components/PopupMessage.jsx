@@ -10,10 +10,10 @@ const PopupMessage = ({ starsign = "Taurus", user }) => {
   const [mood, setMood] = useState("");
 
   const settings = {
-    width: 300,
-    height: 200,
+    width: 350,
+    height: 280,
     image: "/card.png",
-    finishPercent: 70,
+    finishPercent: 60,
   };
 
   useEffect(() => {
@@ -31,10 +31,19 @@ const PopupMessage = ({ starsign = "Taurus", user }) => {
     fetchMood();
   }, [user]);
 
-  // Gemini hívás
   useEffect(() => {
-    // Csak akkor fut le, ha a hangulat be van töltve (vagy alapértelmezett be van állítva)
-    if (!mood) return;
+    const lastShown = localStorage.getItem("lastHoroscopeDate");
+    const today = new Date().toDateString(); // Mai nap string formátumban
+    if (lastShown !== today) {
+      setVisible(true);
+      localStorage.setItem("lastHoroscopeDate", today);
+    } else {
+      setVisible(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!mood || !visible) return;
 
     async function fetchMessage() {
       try {
@@ -71,17 +80,18 @@ const PopupMessage = ({ starsign = "Taurus", user }) => {
 
     setMessage("✨ The stars are aligning... ✨"); // Üzenet frissítése betöltésre
     fetchMessage();
-  }, [starsign, mood]);
+  }, [starsign, mood, visible]);
 
   if (!visible) return null; // ha bezártuk, ne jelenjen meg
 
   return (
     <div className="popup-overlay">
       <div className="popup-container">
-        <p>You are now {mood}</p>
-        <div className="popup-close" onClick={() => setVisible(false)}>✕</div>
+        <div className="popup-close" onClick={() => setVisible(false)}>
+          ✕
+        </div>
         <ScratchCard {...settings}>
-          <div className="text-center p-3">
+          <div className="text-center justify-content-center p-3">
             <p>{message}</p>
           </div>
         </ScratchCard>
