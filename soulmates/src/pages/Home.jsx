@@ -28,7 +28,7 @@ const Home = () => {
   const handleLogout = async () => {
     try {
       await signOutUser();
-      navigate("/login"); // ✅ NAVIGÁLJ A KIJELENTKEZÉS UTÁN! }
+      navigate("/login");
     } catch (error) {
       console.error("Hiba a kijelentkezéskor:", error);
     }
