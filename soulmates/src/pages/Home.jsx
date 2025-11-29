@@ -1,30 +1,67 @@
 import { useEffect, useState } from "react";
 import PopupMessage from "../components/PopupMessage";
 import { UserAuth } from "../context/AuthContext";
-import { getCurrentUser } from "../api/route";
+import { getCurrentUser, getMoods } from "../api/route";
+import { getDailyHoroscope } from "../services/aiService.js";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user: authUser, loading, signOutUser } = UserAuth();
   const [user, setUser] = useState(null);
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+
+  const [dailyMessage, setDailyMessage] = useState(null);
+  const [mood, setMood] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
+    if (!authUser) return;
 
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
         const currentUser = await getCurrentUser();
         setUser(currentUser);
-        console.log("Current user in Home:", currentUser);
+
+        const userId = currentUser?.id;
+        const starsign = currentUser?.starsign;
+
+        // Mood lekérés
+        const latestMood = await getMoods(currentUser);
+        const moodType = latestMood?.type || "calm";
+        setMood(moodType);
+
+        // LocalStorage kulcsok user ID szerint
+        const dateKey = `dailyMessageSeen_${userId}`;
+        const textKey = `dailyMessageText_${userId}`;
+
+        const lastSeen = localStorage.getItem(dateKey);
+        const today = new Date().toDateString();
+
+        const isNew = lastSeen !== today;
+        setHasNewMessage(isNew);
+
+        if (isNew) {
+          // Új AI üzenet generálása
+          const msg = await getDailyHoroscope(starsign, moodType);
+          setDailyMessage(msg);
+        } else {
+          // Ma már látta visszatöltjük a mentett üzenetet
+          const savedMsg = localStorage.getItem(textKey);
+          setDailyMessage(savedMsg || null);
+        }
       } catch (err) {
-        console.error("Hiba a felhasználó lekérésekor:", err);
+        console.error("Hiba az adatok lekérésekor:", err);
       }
     };
 
-    fetchUser();
+    fetchData();
   }, [loading, authUser]);
 
+  // Logout
   const handleLogout = async () => {
     try {
       await signOutUser();
@@ -32,6 +69,28 @@ const Home = () => {
     } catch (error) {
       console.error("Hiba a kijelentkezéskor:", error);
     }
+  };
+
+  // Popup megnyitás
+  const openDailyMessage = () => {
+    if (!user) return;
+
+    const userId = user.id;
+    const today = new Date().toDateString();
+
+    const dateKey = `dailyMessageSeen_${userId}`;
+    const textKey = `dailyMessageText_${userId}`;
+
+    // Mai dátum mentése
+    localStorage.setItem(dateKey, today);
+
+    // Üzenet mentése
+    if (dailyMessage) {
+      localStorage.setItem(textKey, dailyMessage);
+    }
+
+    setHasNewMessage(false);
+    setShowPopup(true);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -45,7 +104,19 @@ const Home = () => {
         </button>
       </div>
 
-      {user && <PopupMessage starsign={user.starsign} user={user} />}
+      <div className="d-flex justify-content-center mt-4">
+        <button className="daily-btn" onClick={openDailyMessage}>
+          Daily Message
+          {hasNewMessage && <i className="has-message">!</i>}
+        </button>
+      </div>
+
+      {showPopup && dailyMessage && (
+        <PopupMessage
+          message={dailyMessage}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
 
       {user && (
         <div className="user-greeting d-flex flex-column align-items-center mt-5">
