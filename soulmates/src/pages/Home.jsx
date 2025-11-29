@@ -91,7 +91,7 @@ const Home = () => {
 
   if (loading) return <p>Loading...</p>;
 
-  const hasAstroData = user && user.starsign && user.moonsign || user.ascendent;
+  const hasAstroData = user && (user.starsign && user.moonsign || user.ascendent);
 
   return (
     <>
