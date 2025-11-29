@@ -1,4 +1,5 @@
 import { supabase } from "../services/supabaseClient.js";
+import { calculateBirthChart } from "../services/birthChartService.js";
 
 export const getUsers = async () => {
   const { data, error } = await supabase
@@ -78,17 +79,13 @@ export const addUser = async (user) => {
 }
 
 export const updateUserProfile = async (userId, profileData) => {
-  const {
-    name,
-    dob,
-    birthplace,
-    birthtime,
-    pronoun
-  } = profileData;
+  const { name, dob, birthplace, birthtime, pronoun } = profileData;
 
-  // Supabase timestamp formátumra alakítás
   const date_of_birth = dob ? new Date(dob).toISOString() : null;
   const time_of_birth = birthtime || null;
+
+  // Számoljuk ki a birthchartot
+  const { starsign, moonsign, ascendent } = calculateBirthChart(dob, birthtime);
 
   const { data, error } = await supabase
     .from("users")
@@ -98,8 +95,13 @@ export const updateUserProfile = async (userId, profileData) => {
       birthplace,
       time_of_birth,
       pronouns: pronoun,
+      starsign,
+      moonsign,
+      ascendent,
     })
-    .eq("id", userId);
+    .eq("id", userId)
+    .select()
+    .single();
 
   if (error) throw error;
   return data;

@@ -52,11 +52,11 @@ const Profile = () => {
     try {
       if (!user) throw new Error("User not logged in");
 
-      await updateUserProfile(user.id, formData);
+      const updated = await updateUserProfile(user.id, formData);
 
-      alert("Profile saved successfully ✨");
+      alert(`Profile saved! Starsign: ${updated.starsign}, Moon: ${updated.moonsign}, Ascendent: ${updated.ascendent}`);
     } catch (err) {
-      console.error("Profile update error:", err.message);
+      console.error(err);
       alert("Error saving profile: " + err.message);
     }
   };
