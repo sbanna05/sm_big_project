@@ -44,9 +44,9 @@ const Home = () => {
         const isNew = lastSeen !== today;
         setHasNewMessage(isNew);
 
-        if (isNew) {
+        if (isNew && starsign) {
           // Új AI üzenet generálása
-          const msg = await getDailyHoroscope(starsign, moodType);
+          const msg = await getDailyHoroscope(starsign, mood);
           setDailyMessage(msg);
         } else {
           // Ma már látta visszatöltjük a mentett üzenetet
@@ -61,7 +61,6 @@ const Home = () => {
     fetchData();
   }, [loading, authUser]);
 
-  // Logout
   const handleLogout = async () => {
     try {
       await signOutUser();
@@ -71,7 +70,6 @@ const Home = () => {
     }
   };
 
-  // Popup megnyitás
   const openDailyMessage = () => {
     if (!user) return;
 
@@ -81,10 +79,8 @@ const Home = () => {
     const dateKey = `dailyMessageSeen_${userId}`;
     const textKey = `dailyMessageText_${userId}`;
 
-    // Mai dátum mentése
     localStorage.setItem(dateKey, today);
 
-    // Üzenet mentése
     if (dailyMessage) {
       localStorage.setItem(textKey, dailyMessage);
     }
@@ -94,6 +90,8 @@ const Home = () => {
   };
 
   if (loading) return <p>Loading...</p>;
+
+  const hasAstroData = user && user.starsign && user.moonsign || user.ascendent;
 
   return (
     <>
@@ -120,17 +118,26 @@ const Home = () => {
 
       {user && (
         <div className="user-greeting d-flex flex-column align-items-center mt-5">
-          <h2>
-            Welcome back, {user.name}!
-          </h2>
-          <p>
-            Starsign: <strong>{user.starsign}</strong>,{" "}
-            Moonsign: <strong>{user.moonsign}</strong>,{" "}
-            Ascendent: <strong>{user.ascendent}</strong>
-          </p>
-          <p>
-            Your mood today is: <strong>{mood}</strong>
-          </p>
+          <h2>Welcome back, {user.name}!</h2>
+
+          {hasAstroData ? (
+            <>
+              <p>
+                Starsign: <strong>{user.starsign}</strong>,{" "}
+                Moonsign: <strong>{user.moonsign}</strong>,{" "}
+                Ascendent: <strong>{user.ascendent}</strong>
+              </p>
+              <p>Your mood today is: <strong>{mood}</strong></p>
+            </>
+          ) : (
+            <button
+              className="profile-btn"
+              onClick={() => navigate("/profile")}
+            >
+              Fill in your profile to get your astrological data
+            </button>
+          )}
+
           <p>Embrace the cosmic energy and explore new possibilities today!</p>
         </div>
       )}
