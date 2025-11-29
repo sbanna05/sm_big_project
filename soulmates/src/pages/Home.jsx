@@ -121,8 +121,16 @@ const Home = () => {
       {user && (
         <div className="user-greeting d-flex flex-column align-items-center mt-5">
           <h2>
-            Welcome back, {user.name} ({user.starsign})!
+            Welcome back, {user.name}!
           </h2>
+          <p>
+            Starsign: <strong>{user.starsign}</strong>,{" "}
+            Moonsign: <strong>{user.moonsign}</strong>,{" "}
+            Ascendent: <strong>{user.ascendent}</strong>
+          </p>
+          <p>
+            Your mood today is: <strong>{mood}</strong>
+          </p>
           <p>Embrace the cosmic energy and explore new possibilities today!</p>
         </div>
       )}
