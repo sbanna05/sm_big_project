@@ -1,40 +1,54 @@
 import React, { useState, useEffect } from "react";
+import { getUsers } from "../api/route.js";
+import { UserAuth } from "../context/AuthContext";
 import "../assets/friends.css";
 
+// Random avatarok
+import img1 from "../../public/photos/proff1.png";
+import img2 from "../../public/photos/219964.png";
+import img3 from "../../public/photos/219969.png";
+import img4 from "../../public/photos/219986.png";
+import img5 from "../../public/photos/219987.png";
+import img6 from "../../public/photos/6997662.png";
+
+const avatarList = [img1, img2, img3, img4, img5, img6];
 
 export default function Friends() {
+  const { user: authUser } = UserAuth();
   const [mood, setMood] = useState("Happy");
   const [zodiac, setZodiac] = useState("Gemini");
+  const [users, setUsers] = useState([]);
   const [results, setResults] = useState([]);
-  const [addedFriends, setAddedFriends] = useState([]);
 
-  const handleAddFriend = (name) => {
-  if (addedFriends.includes(name)) {
-    // Ha már hozzáadott, akkor eltávolítjuk
-    setAddedFriends(addedFriends.filter((n) => n !== name));
-  } else {
-    // Ha nincs hozzáadva, akkor hozzáadjuk
-    setAddedFriends([...addedFriends, name]);
-  }
-};
-
-
-  const possibleFriends = [
-    { name: "Luna Hart", zodiac: "Leo", mood: "Excited", img: img3 },
-    { name: "Mira Selene", zodiac: "Pisces", mood: "Bored", img: img2 },
-    { name: "Nova Arden", zodiac: "Gemini", mood: "Angry", img: img1 },
-    { name: "Cassian Vale", zodiac: "Scorpio", mood: "Happy", img: img5 },
-    { name: "Eira Solis", zodiac: "Cancer", mood: "Happy", img: img4 }
-  ];
-
-
-
+  // ------ USERS BETÖLTÉSE --------
   useEffect(() => {
-    const filtered = possibleFriends.filter(
-      (f) => f.mood === mood || f.zodiac === zodiac
+    async function loadUsers() {
+      const data = await getUsers();
+
+      // saját user kiszedése
+      const filteredUsers = data.filter((u) => u.id !== authUser.id);
+
+      // random avatar + mood + zodiac hozzáadása
+      const enriched = filteredUsers.map((u) => ({
+        ...u,
+        zodiac: u.starsign || "Unknown",
+        mood: "Happy",
+        img: avatarList[Math.floor(Math.random() * avatarList.length)]
+      }));
+
+      setUsers(enriched);
+    }
+
+    if (authUser) loadUsers();
+  }, [authUser]);
+
+  // ------ SZŰRÉS MOOD + ZODIAC ALAPJÁN --------
+  useEffect(() => {
+    const filtered = users.filter(
+      (u) => u.mood === mood || u.zodiac === zodiac
     );
     setResults(filtered);
-  }, [mood, zodiac]);
+  }, [mood, zodiac, users]);
 
   return (
     <div className="friends-page">
@@ -73,15 +87,13 @@ export default function Friends() {
       </div>
 
       <div className="results-grid">
-        {results.map((f, index) => (
-          <div key={index} className="friend-card">
-            <img src={f.img} className="friend-img" />
-            <h2>{f.name}</h2>
-            <p>⭐ {f.zodiac}</p>
-            <p>💫 Mood: {f.mood}</p>
-            <button className="add-btn" onClick={() => handleAddFriend(f.name)}>
-              {addedFriends.includes(f.name) ? "✔ Added" : "Add Friend"}
-            </button>
+        {results.map((u) => (
+          <div key={u.id} className="friend-card">
+            <img src={u.img} className="friend-img" alt="profile" />
+            <h2>{u.name}</h2>
+            <p>⭐ {u.zodiac}</p>
+            <p>💫 Mood: {u.mood}</p>
+            <button className="add-btn">Add Friend</button>
           </div>
         ))}
       </div>
