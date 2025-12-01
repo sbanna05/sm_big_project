@@ -1,6 +1,7 @@
+
 .reading-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #5e1b85, #2c0457);
+  background: linear-gradient(to bottom, #780081, #110049);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,7 +20,7 @@
 }
 
 .reading-card {
-  background: rgba(120, 80, 200, 0.25);
+  background: rgba(189, 152, 218, 0.25);
   border-radius: 25px;
   padding: 30px;
   width: 80%;
@@ -54,3 +55,11 @@
   line-height: 1.6;
   color: #f0e7ff;
 }
+
+.reading-controls {
+  display: flex;
+  justify-content: center; /* középre igazítja a gombokat */
+  gap: 20px; /* 20px hézag a gombok között */
+  margin-top: 20px; /* opcionális, hogy a kártyától is legyen távolság */
+}
+
