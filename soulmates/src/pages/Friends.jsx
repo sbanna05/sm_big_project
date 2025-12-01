@@ -1,21 +1,33 @@
 import React, { useState, useEffect } from "react";
 import "../assets/friends.css";
-import img1 from "../assets/photos/219964.png";
-import img2 from "../assets/photos/219969.png";
 
 
 export default function Friends() {
   const [mood, setMood] = useState("Happy");
   const [zodiac, setZodiac] = useState("Gemini");
   const [results, setResults] = useState([]);
+  const [addedFriends, setAddedFriends] = useState([]);
+
+  const handleAddFriend = (name) => {
+  if (addedFriends.includes(name)) {
+    // Ha már hozzáadott, akkor eltávolítjuk
+    setAddedFriends(addedFriends.filter((n) => n !== name));
+  } else {
+    // Ha nincs hozzáadva, akkor hozzáadjuk
+    setAddedFriends([...addedFriends, name]);
+  }
+};
+
 
   const possibleFriends = [
-    { name: "Luna Hart", zodiac: "Leo", mood: "Excited", img: "img2" },
-    { name: "Mira Selene", zodiac: "Pisces", mood: "Bored", img: "" },
-    { name: "Nova Arden", zodiac: "Gemini", mood: "Angry", img: "" },
-    { name: "Cassian Vale", zodiac: "Scorpio", mood: "Sad", img: "" },
-    { name: "Eira Solis", zodiac: "Cancer", mood: "Happy", img: "" }
+    { name: "Luna Hart", zodiac: "Leo", mood: "Excited", img: img3 },
+    { name: "Mira Selene", zodiac: "Pisces", mood: "Bored", img: img2 },
+    { name: "Nova Arden", zodiac: "Gemini", mood: "Angry", img: img1 },
+    { name: "Cassian Vale", zodiac: "Scorpio", mood: "Happy", img: img5 },
+    { name: "Eira Solis", zodiac: "Cancer", mood: "Happy", img: img4 }
   ];
+
+
 
   useEffect(() => {
     const filtered = possibleFriends.filter(
@@ -67,7 +79,9 @@ export default function Friends() {
             <h2>{f.name}</h2>
             <p>⭐ {f.zodiac}</p>
             <p>💫 Mood: {f.mood}</p>
-            <button className="add-btn">Add Friend</button>
+            <button className="add-btn" onClick={() => handleAddFriend(f.name)}>
+              {addedFriends.includes(f.name) ? "✔ Added" : "Add Friend"}
+            </button>
           </div>
         ))}
       </div>
