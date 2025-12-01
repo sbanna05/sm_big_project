@@ -2,16 +2,14 @@ import { useEffect, useState } from "react";
 import PopupMessage from "../components/PopupMessage";
 import { UserAuth } from "../context/AuthContext";
 import { getCurrentUser, getMoods } from "../api/route";
-import { getDailyHoroscope } from "../services/aiService.js";
+import { getOrCreateUserDailyHoroscope } from "../services/horoscopeService.js";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user: authUser, loading, signOutUser } = UserAuth();
   const [user, setUser] = useState(null);
-
   const [showPopup, setShowPopup] = useState(false);
   const [hasNewMessage, setHasNewMessage] = useState(false);
-
   const [dailyMessage, setDailyMessage] = useState(null);
   const [mood, setMood] = useState("");
 
@@ -26,40 +24,33 @@ const Home = () => {
         const currentUser = await getCurrentUser();
         setUser(currentUser);
 
-        const userId = currentUser?.id;
-        const starsign = currentUser?.starsign;
+        const userId = currentUser.id;
+        const starsign = currentUser.starsign;
 
-        // Mood lekérés
         const latestMood = await getMoods(currentUser);
         const moodType = latestMood?.type || "calm";
         setMood(moodType);
 
-        // LocalStorage kulcsok user ID szerint
-        const dateKey = `dailyMessageSeen_${userId}`;
-        const textKey = `dailyMessageText_${userId}`;
+        const text = await getOrCreateUserDailyHoroscope(
+          userId,
+          starsign,
+          mood
+        );
 
-        const lastSeen = localStorage.getItem(dateKey);
-        const today = new Date().toDateString();
-
-        const isNew = lastSeen !== today;
-        setHasNewMessage(isNew);
-
-        if (isNew && starsign) {
-          // Új AI üzenet generálása
-          const msg = await getDailyHoroscope(starsign, mood);
-          setDailyMessage(msg);
-        } else {
-          // Ma már látta visszatöltjük a mentett üzenetet
-          const savedMsg = localStorage.getItem(textKey);
-          setDailyMessage(savedMsg || null);
-        }
+        setDailyMessage(text);
+        setHasNewMessage(true);
       } catch (err) {
-        console.error("Hiba az adatok lekérésekor:", err);
+        console.error("Hiba az adatok betöltésekor:", err);
       }
     };
 
     fetchData();
   }, [loading, authUser]);
+
+  const openDailyMessage = () => {
+    setHasNewMessage(false);
+    setShowPopup(true);
+  };
 
   const handleLogout = async () => {
     try {
@@ -70,28 +61,9 @@ const Home = () => {
     }
   };
 
-  const openDailyMessage = () => {
-    if (!user) return;
-
-    const userId = user.id;
-    const today = new Date().toDateString();
-
-    const dateKey = `dailyMessageSeen_${userId}`;
-    const textKey = `dailyMessageText_${userId}`;
-
-    localStorage.setItem(dateKey, today);
-
-    if (dailyMessage) {
-      localStorage.setItem(textKey, dailyMessage);
-    }
-
-    setHasNewMessage(false);
-    setShowPopup(true);
-  };
-
   if (loading) return <p>Loading...</p>;
 
-  const hasAstroData = user && (user.starsign && user.moonsign || user.ascendent);
+  const hasAstroData = user && ((user.starsign && user.moonsign) || user.ascendent);
 
   return (
     <>
