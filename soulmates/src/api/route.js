@@ -106,3 +106,17 @@ export const updateUserProfile = async (userId, profileData) => {
   if (error) throw error;
   return data;
 };
+
+export const addFriend = async (userId, friendId) => {
+  if (!userId || !friendId) throw new Error("Missing user IDs");
+  if (userId === friendId) throw new Error("Cannot add yourself");
+
+  const { data, error } = await supabase
+    .from("friends")
+    .insert([{ user_id: userId, friend_id: friendId },
+      { user_id: friendId, friend_id: userId }
+    ]);
+
+  if (error) throw error;
+  return data;
+};

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getUsers } from "../api/route.js";
+import { getUsers, addFriend } from "../api/route.js";
 import { UserAuth } from "../context/AuthContext";
 import "../assets/friends.css";
 
-// Random avatarok
 import img1 from "../../public/photos/proff1.png";
 import img2 from "../../public/photos/219964.png";
 import img3 from "../../public/photos/219969.png";
@@ -20,7 +19,6 @@ export default function Friends() {
   const [users, setUsers] = useState([]);
   const [results, setResults] = useState([]);
 
-  // ------ USERS BETÖLTÉSE --------
   useEffect(() => {
     async function loadUsers() {
       const data = await getUsers();
@@ -28,7 +26,6 @@ export default function Friends() {
       // saját user kiszedése
       const filteredUsers = data.filter((u) => u.id !== authUser.id);
 
-      // random avatar + mood + zodiac hozzáadása
       const enriched = filteredUsers.map((u) => ({
         ...u,
         zodiac: u.starsign || "Unknown",
@@ -42,13 +39,21 @@ export default function Friends() {
     if (authUser) loadUsers();
   }, [authUser]);
 
-  // ------ SZŰRÉS MOOD + ZODIAC ALAPJÁN --------
   useEffect(() => {
     const filtered = users.filter(
       (u) => u.mood === mood || u.zodiac === zodiac
     );
     setResults(filtered);
   }, [mood, zodiac, users]);
+
+  const handleAddFriend = async (friendId) => {
+    try {
+      await addFriend(authUser.id, friendId);
+      alert("Friend added!");
+    } catch (err) {
+      console.error("Error adding friend:", err);
+    }
+  };
 
   return (
     <div className="friends-page">
@@ -93,7 +98,12 @@ export default function Friends() {
             <h2>{u.name}</h2>
             <p>⭐ {u.zodiac}</p>
             <p>💫 Mood: {u.mood}</p>
-            <button className="add-btn">Add Friend</button>
+            <button
+            className="add-btn"
+            onClick={() => handleAddFriend(u.id)}
+            >
+            Add Friend
+            </button>
           </div>
         ))}
       </div>
