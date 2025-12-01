@@ -1,0 +1,56 @@
+.reading-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #5e1b85, #2c0457);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 60px 20px;
+  color: #fff;
+  text-align: center;
+}
+
+.reading-title {
+  color: #ffd700;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 60px;
+  line-height: 1.4;
+}
+
+.reading-card {
+  background: rgba(120, 80, 200, 0.25);
+  border-radius: 25px;
+  padding: 30px;
+  width: 80%;
+  max-width: 600px;
+  text-align: left;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+}
+
+.reading-sign {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reading-dates {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #cfcfcf;
+}
+
+.reading-date {
+  font-style: italic;
+  color: #c0b0ff;
+  margin-bottom: 10px;
+}
+
+.reading-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #f0e7ff;
+}
