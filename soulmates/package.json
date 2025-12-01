@@ -1,8 +1,9 @@
 {
-  "name": "soulmates",
+  "name": "starmates",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "author": "S2-M2",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

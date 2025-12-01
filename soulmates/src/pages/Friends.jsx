@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUsers, addFriend } from "../api/route.js";
+import { getUsers, addFriend, getMoods } from "../api/route.js";
 import { UserAuth } from "../context/AuthContext";
 import "../assets/friends.css";
 
@@ -14,8 +14,8 @@ const avatarList = [img1, img2, img3, img4, img5, img6];
 
 export default function Friends() {
   const { user: authUser } = UserAuth();
-  const [mood, setMood] = useState("Happy");
-  const [zodiac, setZodiac] = useState("Gemini");
+  const [moodFilter, setMoodFilter] = useState("Calm");
+  const [zodiac, setZodiac] = useState("");
   const [users, setUsers] = useState([]);
   const [results, setResults] = useState([]);
 
@@ -26,12 +26,17 @@ export default function Friends() {
       // saját user kiszedése
       const filteredUsers = data.filter((u) => u.id !== authUser.id);
 
-      const enriched = filteredUsers.map((u) => ({
-        ...u,
-        zodiac: u.starsign || "Unknown",
-        mood: "Happy",
-        img: avatarList[Math.floor(Math.random() * avatarList.length)]
-      }));
+      const enriched = await Promise.all(
+        filteredUsers.map(async (user) => {
+        let lastMood = await getMoods(user);
+          return {
+            ...user,
+            mood: lastMood?.type || "Unknown",
+            zodiac: user.starsign || "Unknown",
+            img: avatarList[Math.floor(Math.random() * avatarList.length)],
+          };
+        })
+      );
 
       setUsers(enriched);
     }
@@ -40,11 +45,15 @@ export default function Friends() {
   }, [authUser]);
 
   useEffect(() => {
-    const filtered = users.filter(
-      (u) => u.mood === mood || u.zodiac === zodiac
-    );
+    const filtered = users.filter((u) => {
+      return (
+        (moodFilter ? u.mood === moodFilter : true) &&
+        (zodiac ? u.zodiac === zodiac : true)
+      );
+    });
+
     setResults(filtered);
-  }, [mood, zodiac, users]);
+  }, [moodFilter, zodiac, users]);
 
   const handleAddFriend = async (friendId) => {
     try {
@@ -58,12 +67,13 @@ export default function Friends() {
   return (
     <div className="friends-page">
       <h1 className="friends-title">✨ Cosmic Friend Finder ✨</h1>
-      <p className="friends-sub">Find connections aligned with your mood and zodiac.</p>
+      <p className="friends-sub">Find connections aligned with mood and zodiac.</p>
 
       <div className="filters">
         <div>
           <label>Mood</label>
-          <select value={mood} onChange={(e) => setMood(e.target.value)}>
+          <select value={moodFilter} onChange={(e) => setMoodFilter(e.target.value)}>
+            <option value="">— Any mood —</option>
             <option>Angry</option>
             <option>Sad</option>
             <option>Bored</option>
@@ -75,6 +85,7 @@ export default function Friends() {
         <div>
           <label>Zodiac</label>
           <select value={zodiac} onChange={(e) => setZodiac(e.target.value)}>
+            <option value="">— Any zodiac —</option>
             <option>Aries</option>
             <option>Taurus</option>
             <option>Gemini</option>
@@ -98,11 +109,9 @@ export default function Friends() {
             <h2>{u.name}</h2>
             <p>⭐ {u.zodiac}</p>
             <p>💫 Mood: {u.mood}</p>
-            <button
-            className="add-btn"
-            onClick={() => handleAddFriend(u.id)}
-            >
-            Add Friend
+
+            <button className="add-btn" onClick={() => handleAddFriend(u.id)}>
+              Add Friend
             </button>
           </div>
         ))}

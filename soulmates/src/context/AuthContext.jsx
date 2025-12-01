@@ -8,52 +8,50 @@ export const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initSession = async () => {
-      setLoading(true);
-      const { data } = await supabase.auth.getSession();
-      setUser(data.session?.user || null);
+    let ignore = false;
+
+    //Első session betöltése frissítés után
+    supabase.auth.getSession().then(({ data }) => {
+      if (!ignore) {
+        setUser(data.session?.user || null);
+        setLoading(false);
+      }
+    });
+
+    // Session változás figyelése
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
       setLoading(false);
+    });
+
+    return () => {
+      ignore = true;
+      subscription.unsubscribe();
     };
-
-    initSession();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => setUser(session?.user || null)
-    );
-
-    return () => listener.subscription.unsubscribe();
   }, []);
 
-  // ✅ Új user regisztráció
   const signUpNewUser = async (email, password, name) => {
     try {
-      // 1️⃣ Auth user létrehozása
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name } }, // opcionális metaadat
+        options: { data: { name } },
       });
 
       if (error) return { success: false, error };
       if (!data.user)
-        return {
-          success: false,
-          error: new Error("No user returned from signUp"),
-        };
+        return { success: false, error: new Error("No user returned from signUp") };
 
-      // 2️⃣ Users tábla frissítése
-      const { data: newUser, error: dbError } = await supabase
-        .from("users")
-        .insert([
-          {
-            id: data.user.id, // Auth user ID
-            name: name,
-            email: email, // email szükséges lehet NOT NULL miatt
-            starsign: null, // opcionális
-          },
-        ])
-        .select()
-        .maybeSingle();
+      const { error: dbError } = await supabase.from("users").insert([
+        {
+          id: data.user.id,
+          name,
+          email,
+          starsign: null,
+        },
+      ]);
 
       if (dbError) return { success: false, error: dbError };
 

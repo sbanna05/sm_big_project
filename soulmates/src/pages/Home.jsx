@@ -34,7 +34,7 @@ const Home = () => {
         const text = await getOrCreateUserDailyHoroscope(
           userId,
           starsign,
-          mood
+          moodType
         );
 
         setDailyMessage(text);

@@ -13,8 +13,8 @@ import { useLocation } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
 
 function Layout() {
-  const { user, loading } = UserAuth(); // A 'loading' állapotot is használd
-  const location = useLocation(); // Azok az útvonalak, ahol NEM akarod a Header-t
+  const { user, loading } = UserAuth();
+  const location = useLocation();
 
   const hideHeaderRoutes = ["/login", "/signup"];
 
@@ -22,7 +22,7 @@ function Layout() {
 
   return (
     <>
-      {!shouldHideHeader && user && <Header />}
+      {!shouldHideHeader && !loading && user && <Header />}
       <main>
         <Routes>
           <Route
@@ -49,8 +49,6 @@ function Layout() {
     </>
   );
 }
-
-// ... App komponens ...
 
 function App() {
   return (
