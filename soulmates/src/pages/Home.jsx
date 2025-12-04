@@ -4,6 +4,7 @@ import { UserAuth } from "../context/AuthContext";
 import { getCurrentUser, getMoods } from "../api/route";
 import { getOrCreateUserDailyHoroscope } from "../services/horoscopeService.js";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../services/supabaseClient.js";
 
 const Home = () => {
   const { user: authUser, loading, signOutUser } = UserAuth();
@@ -38,7 +39,7 @@ const Home = () => {
         );
 
         setDailyMessage(text);
-        setHasNewMessage(true);
+        setHasNewMessage(!text.is_read);
       } catch (err) {
         console.error("Hiba az adatok betöltésekor:", err);
       }
@@ -47,9 +48,27 @@ const Home = () => {
     fetchData();
   }, [loading, authUser]);
 
-  const openDailyMessage = () => {
-    setHasNewMessage(false);
+  const openDailyMessage = async () => {
     setShowPopup(true);
+    if (dailyMessage && !dailyMessage.is_read) {
+      setHasNewMessage(false);
+
+      try {
+        const { data, error } = await supabase
+          .from("daily_horoscope")
+          .update({ is_read: true })
+          .eq("horoscope_id", dailyMessage.horoscope_id)
+          .select()
+          .single();
+
+        if (error) throw error;
+
+        // helyi state frissítése a frissített rekorddal
+        setDailyMessage(data);
+      } catch (err) {
+        console.error("Hiba az is_read frissítésekor:", err);
+      }
+    }
   };
 
   const handleLogout = async () => {
@@ -83,7 +102,7 @@ const Home = () => {
 
       {showPopup && dailyMessage && (
         <PopupMessage
-          message={dailyMessage}
+          message={dailyMessage.description}
           onClose={() => setShowPopup(false)}
         />
       )}
@@ -95,9 +114,9 @@ const Home = () => {
           {hasAstroData ? (
             <>
               <p>
-                Starsign: <strong>{user.starsign}</strong>,{" "}
-                Moonsign: <strong>{user.moonsign}</strong>,{" "}
-                Ascendent: <strong>{user.ascendent}</strong>
+                Starsign: <strong>{user.starsign}</strong>, Moonsign:{" "}
+                <strong>{user.moonsign}</strong>, Ascendent:{" "}
+                <strong>{user.ascendent}</strong>
               </p>
               <p>Your mood today is: <strong>{mood}</strong></p>
             </>
