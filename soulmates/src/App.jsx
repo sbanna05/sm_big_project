@@ -11,6 +11,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 
 import { useLocation } from "react-router-dom";
 import { UserAuth } from "./context/AuthContext";
+import MoodGraph from "./components/MoodGraph";
 
 function Layout() {
   const { user, loading } = UserAuth();
@@ -44,6 +45,7 @@ function Layout() {
           <Route path="/friends" element={<Friends />} />
           <Route path="/moodboard" element={<MoodBoard />} />
           <Route path="/reading" element={<Reading />} />
+          <Route path="/graph" element={<MoodGraph />} />
         </Routes>
       </main>
     </>
