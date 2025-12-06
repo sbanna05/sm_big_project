@@ -6,17 +6,42 @@ import "../assets/moodboard.css";
 
 function LogMoods() {
   const[selectedMood, setSelectedMood] = useState(null);
-  const[loggedMoods, setLoggedMoods] = useState([]);
   const navigate = useNavigate();
 
   const moods = ["Angry","Sad", "Bored", "Happy", "Excited"];
 
-  const handleStarClick = (index) => {
+  const handleStarClick = async (index) => {
     setSelectedMood(index);
     const newMood = { rating: index + 1, mood: moods[index], date: new Date().toLocaleDateString()};
-    setLoggedMoods([...loggedMoods, newMood]);
-    //alert(`${moods[index]} mood has been logged`);
+
+    try {
+      let existingMoods = [];
+      try {
+        const result = await window.storage.get('moods');
+        if (result?.value) {
+          existingMoods = JSON.parse(result.value);
+        }
+      } catch (error) {
+        // No moods yet, start fresh
+      }
+      
+      const updatedMoods = [...existingMoods, newMood];
+      await window.storage.set('moods', JSON.stringify(updatedMoods));
+    } catch (error) {
+      console.error('Failed to save mood:', error);
+    }
   };
+
+  const goToGraph = async () => {
+    try {
+      const result = await window.storage.get('moods');
+      const moods = result?.value ? JSON.parse(result.value) : [];
+      navigate("/graph", { state: { data: moods } });
+    } catch (error) {
+      navigate("/graph", { state: { data: [] } });
+    }    
+  };
+
 
   return(
     <div className='moodboard-container'>
@@ -39,7 +64,7 @@ function LogMoods() {
             ))}
         </div>
 
-        <button onClick={() => navigate("/graph", {state: {data: loggedMoods}})} className='graph-mood'>Mood Graph</button>
+        <button onClick={goToGraph} className='graph-mood'>Mood Graph</button>
 
     </div>
   );
