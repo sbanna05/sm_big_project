@@ -1,8 +1,9 @@
 {
-  "name": "soulmates",
+  "name": "starmates",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "author": "S2-M2",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,6 +13,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.76.1",
+    "astronomia": "^4.2.0",
     "axios": "^1.12.2",
     "bootstrap": "^5.3.8",
     "framer-motion": "^12.23.24",
@@ -20,6 +22,7 @@
     "react-is": "^19.2.0",
     "react-router-dom": "^7.9.4",
     "react-scratchcard-v2": "^1.1.1",
+    "suncalc": "^1.9.0"
     "recharts": "^3.4.1"
   },
   "devDependencies": {

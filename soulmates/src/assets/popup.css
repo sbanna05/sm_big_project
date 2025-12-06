@@ -64,3 +64,14 @@
   background-color: var(--gold-color);
 }
 
+.has-message{
+  position: relative;
+  width: 20px;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  top: -20px;
+  right: -15px;
+  padding: 0.25rem 0.5rem ;
+}
+

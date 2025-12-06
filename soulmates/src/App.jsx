@@ -1,19 +1,46 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Friends from "./pages/Friends";
 import MoodBoard from "./pages/MoodBoard";
 import Reading from "./pages/Reading";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { AuthContextProvider } from "./context/AuthContext";
+
+import { useLocation } from "react-router-dom";
+import { UserAuth } from "./context/AuthContext";
 import MoodGraph from "./components/MoodGraph";
 
 function Layout() {
+  const { user, loading } = UserAuth();
+  const location = useLocation();
+
+  const hideHeaderRoutes = ["/login", "/signup"];
+
+  const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
+
   return (
     <>
-      <Header />
+      {!shouldHideHeader && !loading && user && <Header />}
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              loading ? (
+                <div>Loading...</div>
+              ) : user ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/moodboard" element={<MoodBoard />} />
@@ -27,9 +54,11 @@ function Layout() {
 
 function App() {
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </AuthContextProvider>
   );
 }
 
