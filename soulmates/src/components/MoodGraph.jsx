@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import "../assets/moodboard.css";
+import { supabase } from "../services/supabaseClient.js";
 
 function MoodGraph(){
     const location = useLocation();
@@ -9,22 +10,29 @@ function MoodGraph(){
     const [data, setData] = useState([]);
 
   useEffect(() => {
-    const loadMoods = async () => {
-      if (location.state?.data) {
-        setData(location.state.data);
-      } else {
-        try {
-          const result = await window.storage.get('moods');
-          if (result?.value) {
-            setData(JSON.parse(result.value));
-          }
-        } catch (error) {
-          console.log('No moods found');
-        }
-      }
-    };
-    loadMoods();
-  }, [location.state]);
+  const loadMoods = async () => {
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    // Fetch moods from database for this user
+    const { data: moodsData } = await supabase
+      .from('daily_moods')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('logged_at', { ascending: true });
+
+    // Convert mood names to ratings (1-5) for the graph
+    const moods = ["Angry", "Sad", "Bored", "Happy", "Excited"];
+    const transformed = moodsData.map((m) => ({
+      rating: moods.indexOf(m.type) + 1,
+      date: new Date(m.logged_at).toLocaleDateString(),
+    }));
+    
+    setData(transformed);
+  };
+
+  loadMoods();
+}, []);
 
     const transformed = data.map((m, i) =>
     ({

@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import { supabase } from "../services/supabaseClient.js";
 import "../assets/moodboard.css";
 
 
@@ -12,34 +13,25 @@ function LogMoods() {
 
   const handleStarClick = async (index) => {
     setSelectedMood(index);
-    const newMood = { rating: index + 1, mood: moods[index], date: new Date().toLocaleDateString()};
 
     try {
-      let existingMoods = [];
-      try {
-        const result = await window.storage.get('moods');
-        if (result?.value) {
-          existingMoods = JSON.parse(result.value);
-        }
-      } catch (error) {
-        // No moods yet, start fresh
-      }
+      const {data: { user }} = await supabase.auth.getUser();
+
+      const newMood = {
+        user_id: user.id,
+        type: moods[index],
+        logged_at: new Date().toISOString()
+      };
       
-      const updatedMoods = [...existingMoods, newMood];
-      await window.storage.set('moods', JSON.stringify(updatedMoods));
-    } catch (error) {
-      console.error('Failed to save mood:', error);
+      await supabase.from('daily_moods').insert([newMood]);
     }
+      catch(error){
+        console.error('Error saving mood:', error)
+      }
   };
 
   const goToGraph = async () => {
-    try {
-      const result = await window.storage.get('moods');
-      const moods = result?.value ? JSON.parse(result.value) : [];
-      navigate("/graph", { state: { data: moods } });
-    } catch (error) {
-      navigate("/graph", { state: { data: [] } });
-    }    
+    navigate("/graph")    
   };
 
 
