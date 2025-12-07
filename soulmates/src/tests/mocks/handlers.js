@@ -59,4 +59,19 @@ export const handlers = [
   http.post('*/rest/v1/friends', () => {
     return HttpResponse.json(null, { status: 201 });
   }),
+
+  // Mock get daily horoscope (default empty)
+  http.get('*/rest/v1/daily_horoscope', () => {
+    return HttpResponse.json([]);
+  }),
+
+  // Mock insert daily horoscope
+  http.post('*/rest/v1/daily_horoscope', () => {
+    // Return a dummy inserted record
+    return HttpResponse.json({
+        horoscope_id: 'new-id',
+        description: 'Generated Horoscope',
+        is_read: false
+    });
+  }),
 ];
