@@ -2,23 +2,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import MoodGraph from '../../components/MoodGraph';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { server } from '../mocks/server';
+import { http, HttpResponse } from 'msw';
 import { supabase } from '../../services/supabaseClient';
-
-// Mock Supabase
-vi.mock('../../services/supabaseClient', () => ({
-  supabase: {
-    auth: {
-      getUser: vi.fn(),
-    },
-    from: vi.fn(() => ({
-      select: vi.fn(() => ({
-        eq: vi.fn(() => ({
-          order: vi.fn(),
-        })),
-      })),
-    })),
-  },
-}));
 
 // Mock Recharts
 vi.mock('recharts', () => ({
@@ -44,25 +30,19 @@ vi.mock('react-router-dom', async () => {
 describe('MoodGraph Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Ensure auth always returns a user
+    vi.spyOn(supabase.auth, 'getUser').mockResolvedValue({
+      data: { user: { id: 'test-user-id' } },
+    });
   });
 
   it('renders "no logged moods" message when no data', async () => {
-     // Mock empty response
-    const mockUser = { id: 'test-user-id' };
-    supabase.auth.getUser.mockResolvedValue({ data: { user: mockUser } });
-    
-    const mockSelect = vi.fn();
-    const mockEq = vi.fn();
-    const mockOrder = vi.fn().mockResolvedValue({ data: [] });
-
-    supabase.from.mockReturnValue({
-        select: mockSelect.mockReturnValue({
-            eq: mockEq.mockReturnValue({
-                order: mockOrder
-            })
-        })
-    });
-
+    // Override handler to return empty list
+    server.use(
+      http.get('*/rest/v1/daily_moods', () => {
+        return HttpResponse.json([]);
+      })
+    );
 
     render(
       <BrowserRouter>
@@ -76,27 +56,8 @@ describe('MoodGraph Component', () => {
   });
 
   it('renders chart when data exists', async () => {
-     // Mock data response
-    const mockUser = { id: 'test-user-id' };
-    supabase.auth.getUser.mockResolvedValue({ data: { user: mockUser } });
+    // Default handler in handlers.js returns data (Happy, Sad)
     
-    const mockMoods = [
-        { type: "Happy", logged_at: "2023-01-01T10:00:00Z" },
-        { type: "Sad", logged_at: "2023-01-02T10:00:00Z" }
-    ];
-
-    const mockSelect = vi.fn();
-    const mockEq = vi.fn();
-    const mockOrder = vi.fn().mockResolvedValue({ data: mockMoods });
-
-    supabase.from.mockReturnValue({
-        select: mockSelect.mockReturnValue({
-            eq: mockEq.mockReturnValue({
-                order: mockOrder
-            })
-        })
-    });
-
     render(
       <BrowserRouter>
         <MoodGraph />
