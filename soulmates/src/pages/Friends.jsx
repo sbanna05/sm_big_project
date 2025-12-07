@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getUsers, addFriend, getMoods } from "../api/route.js";
+import { getUsers, addFriend, getMoods } from "../api/route";
 import { UserAuth } from "../context/AuthContext";
 import "../assets/friends.css";
 
