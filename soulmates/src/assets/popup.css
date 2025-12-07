@@ -1,0 +1,77 @@
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(17, 0, 73, 0.95);
+  border: 2px solid var(--gold-color);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 0 30px var(--star-color);
+  z-index: 999;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-box {
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  z-index: 1000;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+  animation: fadeIn 0.4s ease;
+}
+
+.popup-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: 0.2s;
+  overflow: hidden;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 0.2rem 0.5rem;
+}
+
+.popup-close:hover {
+  color: var(--white-color);
+  background-color: var(--gold-color);
+}
+
+.has-message{
+  position: relative;
+  width: 20px;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  top: -20px;
+  right: -15px;
+  padding: 0.25rem 0.5rem ;
+}
+
