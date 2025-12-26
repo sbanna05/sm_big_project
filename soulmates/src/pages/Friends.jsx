@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from "react";
+import { getUsers, addFriend, getMoods } from "../api/route";
+import { UserAuth } from "../context/AuthContext";
+import "../assets/friends.css";
+
+import img1 from "../../public/photos/proff1.png";
+import img2 from "../../public/photos/219964.png";
+import img3 from "../../public/photos/219969.png";
+import img4 from "../../public/photos/219986.png";
+import img5 from "../../public/photos/219987.png";
+import img6 from "../../public/photos/6997662.png";
+
+const avatarList = [img1, img2, img3, img4, img5, img6];
+
+export default function Friends() {
+  const { user: authUser } = UserAuth();
+  const [moodFilter, setMoodFilter] = useState("Calm");
+  const [zodiac, setZodiac] = useState("");
+  const [users, setUsers] = useState([]);
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    async function loadUsers() {
+      const data = await getUsers();
+
+      // saját user kiszedése
+      const filteredUsers = data.filter((u) => u.id !== authUser.id);
+
+      const enriched = await Promise.all(
+        filteredUsers.map(async (user) => {
+        let lastMood = await getMoods(user);
+          return {
+            ...user,
+            mood: lastMood?.type || "Unknown",
+            zodiac: user.starsign || "Unknown",
+            img: avatarList[Math.floor(Math.random() * avatarList.length)],
+          };
+        })
+      );
+
+      setUsers(enriched);
+    }
+
+    if (authUser) loadUsers();
+  }, [authUser]);
+
+  useEffect(() => {
+    const filtered = users.filter((u) => {
+      return (
+        (moodFilter ? u.mood === moodFilter : true) &&
+        (zodiac ? u.zodiac === zodiac : true)
+      );
+    });
+
+    setResults(filtered);
+  }, [moodFilter, zodiac, users]);
+
+  const handleAddFriend = async (friendId) => {
+    try {
+      await addFriend(authUser.id, friendId);
+      alert("Friend added!");
+    } catch (err) {
+      console.error("Error adding friend:", err);
+    }
+  };
+
+  return (
+    <div className="friends-page">
+      <h1 className="friends-title">✨ Cosmic Friend Finder ✨</h1>
+      <p className="friends-sub">Find connections aligned with mood and zodiac.</p>
+
+      <div className="filters">
+        <div>
+          <label>Mood</label>
+          <select value={moodFilter} onChange={(e) => setMoodFilter(e.target.value)}>
+            <option value="">— Any mood —</option>
+            <option>Angry</option>
+            <option>Sad</option>
+            <option>Bored</option>
+            <option>Happy</option>
+            <option>Excited</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Zodiac</label>
+          <select value={zodiac} onChange={(e) => setZodiac(e.target.value)}>
+            <option value="">— Any zodiac —</option>
+            <option>Aries</option>
+            <option>Taurus</option>
+            <option>Gemini</option>
+            <option>Cancer</option>
+            <option>Leo</option>
+            <option>Virgo</option>
+            <option>Libra</option>
+            <option>Scorpio</option>
+            <option>Sagittarius</option>
+            <option>Capricorn</option>
+            <option>Aquarius</option>
+            <option>Pisces</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="results-grid">
+        {results.map((u) => (
+          <div key={u.id} className="friend-card">
+            <img src={u.img} className="friend-img" alt="profile" />
+            <h2>{u.name}</h2>
+            <p>⭐ {u.zodiac}</p>
+            <p>💫 Mood: {u.mood}</p>
+
+            <button className="add-btn" onClick={() => handleAddFriend(u.id)}>
+              Add Friend
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
